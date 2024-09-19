@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Domain\MasterData\Entities;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,8 +19,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'telephone',
+        'store_id'
     ];
 
     /**
@@ -40,5 +43,11 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
+
+    public function stores()
+    {
+        return $this->belongsTo(Store::class);
+    }
 }
