@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 15);
+            $table->string('name', 64);
             $table->string('telephone', 15);
             $table->timestamps();
         });

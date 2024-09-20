@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 15);
+            $table->string('name', 64);
             $table->foreignId('group_id')->nullable()->references('id')->on('groups')->onDelete('cascade');
             $table->timestamps();
         });
