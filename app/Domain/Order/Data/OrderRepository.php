@@ -29,18 +29,19 @@ class OrderRepository
             DB::raw('CONCAT(date, " ", time) as date'),
             'pic_1',
             'pic_2',
-            'store1.name as store_origin',
-            'store2.name as store_destination',
+            'store_origin.name as store_origin',
+            'store_destination.name as store_destination',
             'is_confirm'
         )
-            ->join('stores as store1', 'store1.id', '=', 'orders.store_origin')
-            ->join('stores as store2', 'store2.id', '=', 'orders.store_destination')
+            ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
+            ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->where('is_confirm', '0')
             ->where('store_origin.id', $store_id)
+            ->orderBy('orders.created_at', 'desc')
             ->get();
     }
 
-    public function driverOrder($driver_id)
+    public function driverOrderList($driver_id)
     {
         return Order::select(
             'orders.id',
@@ -55,21 +56,25 @@ class OrderRepository
             DB::raw('CONCAT(date, " ", time) as date'),
             'pic_1',
             'pic_2',
-            'store_origin.name as store_1',
-            'store2.name as store_2',
+            'store_origin.name as store_origin',
+            'store_destination.name as store_destination',
             "date_confirm",
             "time_confirm",
-            "towing",
+            "towing.name as towing",
             "is_confirm",
             "is_done",
             "driver_id",
+            "drivers.name as driver_name",
             'is_confirm'
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
-            ->join('stores as store2', 'store2.id', '=', 'orders.store_id_2')
+            ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->join('towing', 'towing.id', '=', 'orders.towing_id')
+            ->join('drivers', 'drivers.id', '=', 'orders.driver_id')
             ->where('is_confirm', '1')
             ->where('is_done', '0')
-            ->where('store_origin.id', $driver_id)
+            ->where('driver_id', $driver_id)
+            ->orderBy('orders.updated_at', 'desc')
             ->get();
     }
 
@@ -88,18 +93,21 @@ class OrderRepository
             DB::raw('CONCAT(date, " ", time) as date'),
             'pic_1',
             'pic_2',
-            'store_origin.name as store_1',
-            'store2.name as store_2',
+            'store_origin.name as store_origin',
+            'store_destination.name as store_destination',
             "date_confirm",
             "time_confirm",
-            "towing",
+            "towing.name as towing",
             "is_confirm",
             "is_done",
             "driver_id",
+            "drivers.name as driver_name",
             'is_confirm'
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
-            ->join('stores as store2', 'store2.id', '=', 'orders.store_id_2')
+            ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->join('towing', 'towing.id', '=', 'orders.towing_id')
+            ->join('drivers', 'drivers.id', '=', 'orders.driver_id')
             ->where('is_confirm', '1')
             ->where('is_done', '1')
             ->where('store_origin.id', $store_id)
@@ -115,7 +123,8 @@ class OrderRepository
             ->when($request->show == 'others', function ($query) use ($request) {
                 return $query->where('towing', $request->show);
             })
-            ->when($request->user()->store_id, fn($x) => $x->where('store_origin', $request->user()->store_id))
+            // ->when($request->user()->store_id, fn($x) => $x->where('store_origin', $request->user()->store_id))
+            ->orderBy('orders.updated_at', 'desc')
             ->get();
     }
 
@@ -134,18 +143,21 @@ class OrderRepository
             DB::raw('CONCAT(date, " ", time) as date'),
             'pic_1',
             'pic_2',
-            'store_origin.name as store_1',
-            'store2.name as store_2',
+            'store_origin.name as store_origin',
+            'store_destination.name as store_destination',
             "date_confirm",
             "time_confirm",
-            "towing",
+            "towing.name as towing",
             "is_confirm",
             "is_done",
             "driver_id",
+            "drivers.name as driver_name",
             'is_confirm'
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
-            ->join('stores as store2', 'store2.id', '=', 'orders.store_id_2')
+            ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->join('towing', 'towing.id', '=', 'orders.towing_id')
+            ->join('drivers', 'drivers.id', '=', 'orders.driver_id')
             ->where('is_confirm', '1')
             ->where('is_done', '1')
             ->where('driver_id', $driver_id)
@@ -161,7 +173,8 @@ class OrderRepository
             ->when($request->show == 'others', function ($query) use ($request) {
                 return $query->where('towing', $request->show);
             })
-            ->when($request->user()->store_id, fn($x) => $x->where('store_origin', $request->user()->store_id))
+            // ->when($request->user()->store_id, fn($x) => $x->where('store_origin', $request->user()->store_id))
+            ->orderBy('orders.updated_at', 'desc')
             ->get();
     }
 

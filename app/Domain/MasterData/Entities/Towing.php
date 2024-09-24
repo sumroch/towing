@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class Towing extends Model
 {
     use HasFactory;
-    protected $table = "towings";
+    protected $table = "towing";
     protected $fillable = [
-        "name"
+        "name",
     ];
 
     public function order()

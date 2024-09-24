@@ -150,7 +150,7 @@ class OrderSeeder extends Seeder
                 'date_confirm'  => '2024/08/20',
                 'time_confirm'  => '09:00 - 12:00',
                 'is_confirm'    => '1',
-                'is_done'       => '1',
+                'is_done'       => '0',
                 'towing_id'     => '1',
                 'driver_id'     => '2',
                 'store_origin'    => '2',

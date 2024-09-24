@@ -1,22 +1,15 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+Route::get('/home', [HomeController::class, 'index'])->name('public.home');
+Route::get('/home/{store_id}', [HomeController::class, 'orderList']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/order', [OrderController::class, 'store']);
+Route::get('/store-history/{store_id}', [HomeController::class, 'storeHistory']);
 
-Route::get('/home', [HomeController::class, 'index']);
+Route::get('/driver-order-list/{driver_id}', [HomeController::class, 'driverOrderList']);
+Route::get('/driver-history/{driver_id}', [HomeController::class, 'driverHistory']);
