@@ -22,4 +22,25 @@ class OrderController extends Controller
 
         return $this->apiResponseSuccess($order);
     }
+
+    public function update(OrderRequest $request, OrderManagement $orderManagement, $order_id)
+    {
+        $order = $orderManagement->getUpdate($request, $order_id);
+
+        return $this->apiResponseSuccess($order);
+    }
+
+    public function updateConfirm(OrderRequest $request, OrderManagement $orderManagement, $order_id)
+    {
+        $order = $orderManagement->getUpdateConfirm($request, $order_id);
+
+        return $this->apiResponseSuccess($order);
+    }
+
+    public function updateOrderDriver(OrderRequest $request, OrderManagement $orderManagement, $order_id)
+    {
+        $order = $orderManagement->getUpdateOrderDriver($request, $order_id);
+
+        return $this->apiResponseSuccess($order);
+    }
 }
