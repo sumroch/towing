@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\MasterData\Data\StoreRepository;
+use App\Domain\MasterData\Entities\Store;
 use App\Domain\Order\Application\OrderManagement;
 use App\Domain\Order\Data\OrderRepository;
 use App\Domain\Order\Entities\Order;
@@ -10,10 +12,24 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    protected $repository;
-    public function __construct(OrderRepository $repository)
+    protected $orderRepository;
+    protected $storeRepository;
+
+    public function __construct(
+        OrderRepository $orderRepository,
+        StoreRepository $storeRepository
+    ) {
+        $this->orderRepository = $orderRepository;
+        $this->storeRepository = $storeRepository;
+    }
+
+    public function metaDataOrder()
     {
-        $this->repository = $repository;
+        $store1 = $this->storeRepository->call();
+        $store2 = $this->storeRepository->call();
+        $towing = 'dataTowing';
+
+        return $this->apiResponseSuccess(compact('store1', 'store2'));
     }
 
     public function store(OrderRequest $Request, OrderManagement $orderManagement)
