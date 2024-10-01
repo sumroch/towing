@@ -15,9 +15,4 @@ class Driver extends Model
         "name",
         "telephone"
     ];
-
-    public function order()
-    {
-        return $this->hasOne(Order::class, 'driver_id', 'id');
-    }
 }

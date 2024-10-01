@@ -13,23 +13,10 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     protected $orderRepository;
-    protected $storeRepository;
 
-    public function __construct(
-        OrderRepository $orderRepository,
-        StoreRepository $storeRepository
-    ) {
-        $this->orderRepository = $orderRepository;
-        $this->storeRepository = $storeRepository;
-    }
-
-    public function metaDataOrder()
+    public function __construct(OrderRepository $orderRepository)
     {
-        $store1 = $this->storeRepository->call();
-        $store2 = $this->storeRepository->call();
-        $towing = 'dataTowing';
-
-        return $this->apiResponseSuccess(compact('store1', 'store2'));
+        $this->orderRepository = $orderRepository;
     }
 
     public function store(OrderRequest $Request, OrderManagement $orderManagement)

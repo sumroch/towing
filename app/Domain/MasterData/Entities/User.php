@@ -3,14 +3,18 @@
 namespace App\Domain\MasterData\Entities;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Domain\Order\Entities\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -46,8 +50,14 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected $guard_name = 'web';
+
     public function stores()
     {
         return $this->belongsTo(Store::class);
+    }
+    public function order()
+    {
+        return $this->hasOne(Order::class, 'driver_id', 'id');
     }
 }

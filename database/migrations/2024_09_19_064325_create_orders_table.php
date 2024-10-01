@@ -28,7 +28,7 @@ return new class extends Migration
             $table->boolean('is_confirm')->default(0);
             $table->boolean('is_done')->default(0);
             $table->foreignId('towing_id')->nullable()->references('id')->on('towing')->onDelete('cascade');
-            $table->foreignId('driver_id')->nullable()->references('id')->on('drivers')->onDelete('cascade');
+            $table->foreignId('driver_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('store_origin')->nullable()->references('id')->on('stores')->onDelete('cascade');
             $table->foreignId('store_destination')->nullable()->references('id')->on('stores')->onDelete('cascade');
             $table->timestamps();

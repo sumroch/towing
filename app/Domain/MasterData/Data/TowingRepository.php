@@ -13,4 +13,10 @@ class TowingRepository
     {
         $this->model = $model;
     }
+
+    public function call()
+    {
+        $data = $this->model->select('id', 'name')->pluck('name', 'id');
+        return $data;
+    }
 }

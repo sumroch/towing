@@ -5,6 +5,7 @@ namespace App\Domain\Order\Entities;
 use App\Domain\MasterData\Entities\Driver;
 use App\Domain\MasterData\Entities\Store;
 use App\Domain\MasterData\Entities\Towing;
+use App\Domain\MasterData\Entities\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,9 +38,9 @@ class Order extends Model
     {
         return $this->belongsTo(Towing::class);
     }
-    public function drivers()
+    public function users()
     {
-        return $this->belongsTo(Driver::class);
+        return $this->belongsTo(User::class);
     }
     public function stores()
     {
