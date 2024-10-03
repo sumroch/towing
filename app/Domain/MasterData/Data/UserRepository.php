@@ -25,7 +25,7 @@ class UserRepository
 
     public function index()
     {
-        $data = $this->model->select('users.id', 'users.name', 'email', 'username', 'password', 'store_id', 'roles.name as role')
+        $data = $this->model->select('users.id', 'users.name', 'email', 'username', 'password', 'telephone', 'store_id', 'roles.name as role')
             ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id');
 
