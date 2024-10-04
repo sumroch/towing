@@ -19,18 +19,23 @@ class HomeController extends Controller
         return $this->apiResponseSuccess($this->orderRepository->orderList($store_id));
     }
 
-    public function driverOrderList($driver_id)
+    public function orderListStore(Request $request)
     {
-        return $this->apiResponseSuccess($this->orderRepository->driverOrderList($driver_id));
+        return $this->apiResponseSuccess($this->orderRepository->orderListStore($request));
     }
 
-    public function storeHistory($store_id, Request $request)
+    public function driverOrderList(Request $request)
     {
-        return $this->apiResponseSuccess($this->orderRepository->storeHistory($store_id, $request));
+        return $this->apiResponseSuccess($this->orderRepository->driverOrderList($request));
     }
 
-    public function driverHistory($driver_id, Request $request)
+    public function storeHistory(Request $request)
     {
-        return $this->apiResponseSuccess($this->orderRepository->driverHistory($driver_id, $request));
+        return $this->apiResponseSuccess($this->orderRepository->storeHistory($request));
+    }
+
+    public function driverHistory(Request $request)
+    {
+        return $this->apiResponseSuccess($this->orderRepository->driverHistory($request));
     }
 }

@@ -47,10 +47,6 @@ class UserController extends Controller
 
     public function store(UserRequest $request, UserManagement $userManagement)
     {
-        if ($request->roles == "manager") {
-            return $this->apiResponseBadRes('role not available');
-        }
-
         $data = User::create($userManagement->getData($request));
         $data->assignRole(is_array($request->roles) ? $request->roles : [$request->roles]);
 
@@ -59,10 +55,6 @@ class UserController extends Controller
 
     public function update(UserManagement $userManagement, UserRequest $request, $id)
     {
-        if ($request->roles == "manager") {
-            return $this->apiResponseBadRes('roles not available');
-        }
-
         $data = $userManagement->getUpdate($request, $id);
         $data->syncRoles(is_array($request->roles) ? $request->roles : [$request->roles]);
 

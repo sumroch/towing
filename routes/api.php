@@ -16,25 +16,40 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 
-    Route::get('/home', [HomeController::class, 'index'])->name('public.home');
+    //supporting data
+    Route::get('/data-store', [StoreController::class, 'dataStore']);
+    Route::get('/data-towing', [TowingController::class, 'dataTowing']);
+    Route::get('/data-driver', [UserController::class, 'dataDriver']);
+
+    Route::get('/home', [HomeController::class, 'index']); //belum di buat data Api
+    Route::get('/calender', [HomeController::class, 'index']); //belum di buat data Api
     Route::get('/home/{store_id}', [HomeController::class, 'orderList']);
+    Route::get('/home-store', [HomeController::class, 'orderListStore']);
+
+    Route::middleware(['role:store'])->group(function () {
+        Route::post('/order', [OrderController::class, 'store']);
+        Route::put('/order/{order_id}', [OrderController::class, 'update']);
+    });
+
+    Route::middleware(['role:manager'])->group(function () {
+        Route::put('/order-confirm/{order_id}', [OrderController::class, 'updateConfirm']);
+    });
+
+    Route::middleware(['role:manager|store'])->group(function () {
+        Route::get('/store-history', [HomeController::class, 'storeHistory']);
+    });
+
+    Route::middleware(['role:driver'])->group(function () {
+        Route::get('/driver-order-list', [HomeController::class, 'driverOrderList']);
+        Route::get('/driver-history', [HomeController::class, 'driverHistory']);
+    });
+
+    Route::middleware(['role:driver'])->group(function () {
+        Route::put('/driver-order/{order_id}', [OrderController::class, 'updateOrderDriver']);
+    });
 });
 
-Route::get('/data-store', [StoreController::class, 'dataStore'])->middleware(['auth:sanctum']);
-Route::get('/data-towing', [TowingController::class, 'dataTowing'])->middleware(['auth:sanctum']);
-Route::get('/data-driver', [UserController::class, 'dataDriver'])->middleware(['auth:sanctum']);
-
-
-Route::post('/order', [OrderController::class, 'store']);
-Route::put('/order/{order_id}', [OrderController::class, 'update']);
-Route::put('/order-confirm/{order_id}', [OrderController::class, 'updateConfirm']);
-Route::get('/store-history/{store_id}', [HomeController::class, 'storeHistory']);
-
-Route::get('/driver-order-list/{driver_id}', [HomeController::class, 'driverOrderList']);
-Route::get('/driver-history/{driver_id}', [HomeController::class, 'driverHistory']);
-Route::put('/driver-order/{order_id}', [OrderController::class, 'updateOrderDriver']);
-
-Route::prefix('admin')->middleware(['auth:sanctum'])->group(function () {
+Route::prefix('admin')->middleware(['auth:sanctum', 'role:manager|store'])->group(function () {
     Route::get('/data-role', [UserController::class, 'dataRole']);
 
     Route::get('/user', [UserController::class, 'index']);
