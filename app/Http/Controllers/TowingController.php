@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Domain\MasterData\Data\TowingRepository;
-use Illuminate\Http\Request;
 
 class TowingController extends Controller
 {

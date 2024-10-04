@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Domain\MasterData\Data\StoreRepository;
-use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {

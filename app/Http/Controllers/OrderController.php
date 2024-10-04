@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\MasterData\Data\StoreRepository;
-use App\Domain\MasterData\Entities\Store;
 use App\Domain\Order\Application\OrderManagement;
 use App\Domain\Order\Data\OrderRepository;
 use App\Domain\Order\Entities\Order;
 use App\Domain\Order\Validator\OrderRequest;
-use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {

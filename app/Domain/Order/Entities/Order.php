@@ -2,7 +2,6 @@
 
 namespace App\Domain\Order\Entities;
 
-use App\Domain\MasterData\Entities\Driver;
 use App\Domain\MasterData\Entities\Store;
 use App\Domain\MasterData\Entities\Towing;
 use App\Domain\MasterData\Entities\User;

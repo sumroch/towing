@@ -3,7 +3,6 @@
 namespace App\Domain\Order\Application;
 
 use App\Domain\Order\Entities\Order;
-use App\Domain\Order\Validator\OrderRequest;
 
 class OrderManagement
 {

@@ -3,7 +3,6 @@
 namespace App\Domain\MasterData\Data;
 
 use App\Domain\MasterData\Entities\Store;
-use Illuminate\Support\Facades\DB;
 
 class StoreRepository
 {

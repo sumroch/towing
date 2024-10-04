@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Domain\MasterData\Entities\Store;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class StoreSeeder extends Seeder

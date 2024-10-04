@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Domain\MasterData\Entities\Towing;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class TowingSeeder extends Seeder
