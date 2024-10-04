@@ -26,7 +26,6 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/home-store', [HomeController::class, 'orderListStore']);
 
     Route::middleware(['role:store'])->group(function () {
-        Route::post('/order', [OrderController::class, 'store']);
         Route::put('/order/{order_id}', [OrderController::class, 'update']);
     });
 
@@ -35,6 +34,7 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::middleware(['role:manager|store'])->group(function () {
+        Route::post('/order', [OrderController::class, 'store']);
         Route::get('/store-history', [HomeController::class, 'storeHistory']);
     });
 

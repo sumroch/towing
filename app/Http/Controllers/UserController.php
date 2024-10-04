@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Domain\MasterData\Application\UserManagement;
 use App\Domain\MasterData\Data\UserRepository;
 use App\Domain\MasterData\Entities\User;
-use App\Domain\MasterData\Validator\UserRequest;
+use App\Domain\MasterData\Validators\UserRequest;
 use Exception;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
