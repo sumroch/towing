@@ -3,10 +3,12 @@
 namespace App\Domain\Order\Data;
 
 use App\Domain\Order\Entities\Order;
+use App\Traits\RepositoryTrait;
 use Illuminate\Support\Facades\DB;
 
 class OrderRepository
 {
+    use RepositoryTrait;
     protected $model;
 
     public function __construct(Order $model)

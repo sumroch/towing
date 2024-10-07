@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Domain\MasterData\Application\UserManagement;
 use App\Domain\MasterData\Data\UserRepository;
-use App\Domain\MasterData\Entities\User;
 use App\Domain\MasterData\Validators\UserRequest;
-use Exception;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -47,10 +45,11 @@ class UserController extends Controller
 
     public function store(UserRequest $request, UserManagement $userManagement)
     {
-        $data = User::create($userManagement->getData($request));
-        $data->assignRole(is_array($request->roles) ? $request->roles : [$request->roles]);
+        $request->merge(['password', bcrypt($request->password)]);
+        $user = $this->userRepository->store($request);
+        $user->assignRole($request->role);
 
-        return $this->apiResponseSuccess($data);
+        return $this->apiResponseSuccess($user);
     }
 
     public function update(UserManagement $userManagement, UserRequest $request, $id)
@@ -63,12 +62,6 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        try {
-            User::findOrFail($id)->delete();
-
-            return $this->apiResponseSuccess('Successfully Deleted');
-        } catch (Exception $e) {
-            return $this->apiResponseNotFound('id not available');
-        }
+        return $this->apiResponseSuccess($this->userRepository->delete($id));
     }
 }

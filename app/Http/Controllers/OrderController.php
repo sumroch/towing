@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Domain\Order\Application\OrderManagement;
 use App\Domain\Order\Data\OrderRepository;
-use App\Domain\Order\Entities\Order;
 use App\Domain\Order\Validators\OrderRequest;
 
 class OrderController extends Controller
@@ -16,9 +15,9 @@ class OrderController extends Controller
         $this->orderRepository = $orderRepository;
     }
 
-    public function store(OrderRequest $Request, OrderManagement $orderManagement)
+    public function store(OrderRequest $request)
     {
-        $order = Order::create($orderManagement->getData($Request));
+        $order = $this->orderRepository->store($request->only('car_name', 'number_plate', 'car_color', 'car_category', 'car_condition', 'memo', 'date', 'time', 'pic_1', 'pic_2', 'store_origin', 'store_destination'));
 
         return $this->apiResponseSuccess($order);
     }

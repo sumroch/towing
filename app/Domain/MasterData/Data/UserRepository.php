@@ -3,10 +3,12 @@
 namespace App\Domain\MasterData\Data;
 
 use App\Domain\MasterData\Entities\User;
+use App\Traits\RepositoryTrait;
 use Yajra\DataTables\DataTables;
 
 class UserRepository
 {
+    use RepositoryTrait;
     protected $model;
 
     public function __construct(User $model)
@@ -30,5 +32,16 @@ class UserRepository
             ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id');
 
         return DataTables::of($data)->toJson();
+    }
+
+    public function store($request)
+    {
+        $req = $request->only(['name', 'email', 'username', 'telephone', 'store_id']);
+
+        if ($request->filled('password')) {
+            $req['password'] = bcrypt($request->password);
+        }
+
+        return $this->model->create($req);
     }
 }

@@ -13,24 +13,6 @@ class OrderManagement
         $this->model = $model;
     }
 
-    public function getData($request)
-    {
-        return [
-            'car_name'      => $request->car_name,
-            'number_plate'  => $request->number_plate,
-            'car_color'     => $request->car_color,
-            'car_category'  => $request->car_category,
-            'car_condition' => $request->car_condition,
-            'memo'          => $request->memo,
-            'date'          => $request->date,
-            'time'          => $request->time,
-            'pic_1'         => $request->pic_1,
-            'pic_2'         => $request->pic_2,
-            'store_origin'  => $request->store_origin,
-            'store_destination' => $request->store_destination,
-        ];
-    }
-
     public function getUpdate($request, $order_id)
     {
         $order = $this->model->findOrFail($order_id);
