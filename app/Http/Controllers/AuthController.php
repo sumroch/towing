@@ -25,7 +25,7 @@ class AuthController extends Controller
             ]);
         }
 
-        return $user->createToken('user login')->plainTextToken;
+        return $this->apiResponseSuccess($user->createToken('user login')->plainTextToken);
     }
 
     public function logout(Request $request)
