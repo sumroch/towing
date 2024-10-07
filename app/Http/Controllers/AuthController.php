@@ -33,6 +33,7 @@ class AuthController extends Controller
                     'username'  => $request->user()->username,
                     'email'     => $request->user()->email,
                     'telephone' => $request->user()->telephone,
+                    'store_id'  => $request->user()->store_id,
                     'role'      => $request->user()->roles[0]->name,
                 ],
             ]);
