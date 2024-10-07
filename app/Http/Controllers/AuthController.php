@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -17,15 +18,25 @@ class AuthController extends Controller
             'password'  => 'required'
         ]);
 
-        $user = User::where('username', $request->username)->first();
+        $credentials = $request->only('username', 'password');
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'username' => ['The provided credentials are incorrect'],
+        if (Auth::attempt($credentials)) {
+            $token = $request->user()->createToken('PAT')->plainTextToken;
+
+            return response()->json([
+                'status' => 'success',
+                'code'  => '200',
+                'token' => $token,
+                'data'  => [
+                    'id'        => $request->user()->id,
+                    'name'      => $request->user()->name,
+                    'username'  => $request->user()->username,
+                    'email'     => $request->user()->email,
+                    'telephone' => $request->user()->telephone,
+                    'role'      => $request->user()->roles[0]->name,
+                ],
             ]);
         }
-
-        return $this->apiResponseSuccess($user->createToken('user login')->plainTextToken);
     }
 
     public function logout(Request $request)
@@ -35,7 +46,7 @@ class AuthController extends Controller
         return response()->json('berhasil');
     }
 
-    public function me(Request $request)
+    public function me()
     {
         return response()->json(Auth::user());
     }
