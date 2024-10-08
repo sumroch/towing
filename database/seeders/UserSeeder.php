@@ -23,9 +23,9 @@ class UserSeeder extends Seeder
         $admin->assignRole('manager');
 
         $admin = User::create([
-            'name'      => 'hanazono',
-            'username'  => 'hanazono',
-            'email'     => 'hanazono01@gmail.com',
+            'name'      => 'ashikaga',
+            'username'  => 'ashikaga',
+            'email'     => 'ashikaga@gmail.com',
             'password'  => bcrypt('12345'),
             'telephone' => '089622938112',
             'store_id'  => 1

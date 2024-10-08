@@ -13,6 +13,10 @@ class HomeController extends Controller
     {
         $this->orderRepository = $orderRepository;
     }
+    public function index(Request $request)
+    {
+        return $this->apiResponseSuccess($this->orderRepository->home($request));
+    }
 
     public function orderList($store_id)
     {

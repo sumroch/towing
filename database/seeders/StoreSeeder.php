@@ -13,10 +13,14 @@ class StoreSeeder extends Seeder
     public function run(): void
     {
         Store::insert([
-            ['name' => 'Hanazono', 'group_id' => '1'],
-            ['name' => 'Fukaya', 'group_id' => '1'],
-            ['name' => 'Chichibu', 'group_id' => '2'],
-            ['name' => 'Joykal', 'group_id' => '3'],
+            ['name' => 'Ashikaga', 'group_id' => '1'],
+            ['name' => 'Chichibu', 'group_id' => '1'],
+            ['name' => 'Sayama', 'group_id' => '1'],
+            ['name' => 'Kasahata', 'group_id' => '2'],
+            ['name' => 'Fujiagu', 'group_id' => '2'],
+            ['name' => 'Kagohara', 'group_id' => '2'],
+            ['name' => 'Harajima', 'group_id' => '2'],
+            ['name' => 'Hanazono', 'group_id' => '3'],
             ['name' => 'Honjo', 'group_id' => '3'],
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Domain\Order\Data;
 
+use App\Domain\MasterData\Entities\Group;
 use App\Domain\Order\Entities\Order;
 use App\Traits\RepositoryTrait;
 use Illuminate\Support\Facades\DB;
@@ -9,16 +10,22 @@ use Illuminate\Support\Facades\DB;
 class OrderRepository
 {
     use RepositoryTrait;
-    protected $model;
+    protected $model, $modelGroup;
 
-    public function __construct(Order $model)
+    public function __construct(Order $model, Group $modelGroup)
     {
-        $this->model = $model;
+        $this->model        = $model;
+        $this->modelGroup   = $modelGroup;
     }
 
+    public function home($request)
+    {
+        $group = $this->modelGroup::select('id', 'name')->with(['store'])->withCount('store as total_store')->get();
+        return $group;
+    }
     public function orderList($store_id)
     {
-        return Order::select(
+        return $this->model::select(
             'orders.id',
             'car_name',
             'number_plate',
@@ -45,7 +52,7 @@ class OrderRepository
 
     public function orderListStore($request)
     {
-        return Order::select(
+        return $this->model::select(
             'orders.id',
             'car_name',
             'number_plate',
@@ -73,7 +80,7 @@ class OrderRepository
 
     public function driverOrderList($request)
     {
-        return Order::select(
+        return $this->model::select(
             'orders.id',
             'car_name',
             'number_plate',
@@ -123,7 +130,7 @@ class OrderRepository
 
     public function storeHistory($request)
     {
-        return Order::select(
+        return $this->model::select(
             'orders.id',
             'car_name',
             'number_plate',
@@ -178,7 +185,7 @@ class OrderRepository
 
     public function driverHistory($request)
     {
-        return Order::select(
+        return $this->model::select(
             'orders.id',
             'car_name',
             'number_plate',

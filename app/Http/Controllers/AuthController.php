@@ -38,6 +38,11 @@ class AuthController extends Controller
                 ],
             ]);
         }
+
+        throw ValidationException::withMessages([
+            'username' => ['The provided credentials are incorrect.'],
+            'password' => ['The provided credentials are incorrect.'],
+        ]);
     }
 
     public function logout(Request $request)

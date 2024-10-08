@@ -13,9 +13,9 @@ class GroupSeeder extends Seeder
     public function run()
     {
         Group::insert([
-            ['name' => 'Group1'],
-            ['name' => 'Group2'],
-            ['name' => 'Group3'],
+            ['name' => 'flat_7'],
+            ['name' => 'keigayasui'],
+            ['name' => 'joycal'],
         ]);
     }
 }

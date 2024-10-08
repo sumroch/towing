@@ -15,6 +15,6 @@ class Group extends Model
 
     public function store()
     {
-        return $this->hasOne(Store::class, 'group_id', 'id');
+        return $this->hasMany(Store::class);
     }
 }
