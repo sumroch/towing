@@ -23,9 +23,40 @@ class OrderRepository
         $group = $this->modelGroup::select('id', 'name')->with(['store'])->withCount('store as total_store')->get();
         return $group;
     }
+
+    public function calender($request)
+    {
+        $disable_date = $this->model::select(
+            DB::raw("DATE_FORMAT(date_confirm,'%Y-%m-%d') as date_confirm")
+        )
+            ->where('is_confirm', '1')
+            ->pluck('date_confirm');
+
+        $disable_date = $disable_date->unique();
+
+        $store = $this->model::select(
+            `orders.id`,
+            DB::raw("DATE_FORMAT(date_confirm, '%Y-%m-%d', time) as date_confirm"),
+            'pic_1',
+            'pic_2',
+            'store_origin.name as store_origin',
+            'store_destination.name as store_destination',
+            'towing.name as towing',
+            'is_confirm'
+        )
+            ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
+            ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->join('towing', 'towing.id', '=', 'orders.towing_id')
+            ->where('is_confirm', '0')
+            // ->where('store_origin', $store_id)
+            ->orderBy('orders.created_at', 'desc')
+            ->get();
+
+        return compact('disable_date', 'store');
+    }
     public function orderList($store_id)
     {
-        return $this->model::select(
+        $data = $this->model::select(
             'orders.id',
             'car_name',
             'number_plate',
@@ -48,6 +79,18 @@ class OrderRepository
             ->where('store_origin', $store_id)
             ->orderBy('orders.created_at', 'desc')
             ->get();
+
+        $name_store = $this->model::select(
+            'store_origin.name as store',
+        )
+            ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
+            ->where('store_origin', $store_id)
+            ->first();
+
+        $store = $name_store->store;
+        $store_id = $store_id;
+
+        return compact('data', 'store', 'store_id');
     }
 
     public function orderListStore($request)

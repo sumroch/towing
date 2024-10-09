@@ -8,7 +8,6 @@ use App\Http\Controllers\TowingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::post('/login', [AuthController::class, 'authentication']);
 
 Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
@@ -22,7 +21,7 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/home', [HomeController::class, 'index']);
     Route::get('/calender', [HomeController::class, 'calender']); //belum di buat data Api
-    Route::get('/home/{store_id}', [HomeController::class, 'orderList']);
+    Route::get('/store/{store_id}', [HomeController::class, 'orderList']);
     Route::get('/home-store', [HomeController::class, 'orderListStore']);
 
     Route::middleware(['role:store'])->group(function () {

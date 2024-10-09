@@ -18,6 +18,11 @@ class HomeController extends Controller
         return $this->apiResponseSuccess($this->orderRepository->home($request));
     }
 
+    public function calender(Request $request)
+    {
+        return $this->apiResponseSuccess($this->orderRepository->calender($request));
+    }
+
     public function orderList($store_id)
     {
         return $this->apiResponseSuccess($this->orderRepository->orderList($store_id));
