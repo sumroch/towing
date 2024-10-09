@@ -25,7 +25,7 @@ class HomeController extends Controller
 
     public function orderList($store_id)
     {
-        return $this->apiResponseSuccess($this->orderRepository->orderList($store_id));
+        return $this->orderRepository->orderList($store_id);
     }
 
     public function orderListStore(Request $request)

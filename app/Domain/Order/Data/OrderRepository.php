@@ -35,23 +35,13 @@ class OrderRepository
         $disable_date = $disable_date->unique();
 
         $store = $this->model::select(
-            `orders.id`,
-            DB::raw("DATE_FORMAT(date_confirm, '%Y-%m-%d', time) as date_confirm"),
-            'pic_1',
-            'pic_2',
-            'store_origin.name as store_origin',
-            'store_destination.name as store_destination',
-            'towing.name as towing',
-            'is_confirm'
-        )
-            ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
-            ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
-            ->join('towing', 'towing.id', '=', 'orders.towing_id')
-            ->where('is_confirm', '0')
-            // ->where('store_origin', $store_id)
-            ->orderBy('orders.created_at', 'desc')
+            'id',
+            'store_origin',
+            'store_destination'
+        )->where('is_confirm', '1')
             ->get();
 
+        // return $disable_date;
         return compact('disable_date', 'store');
     }
     public function orderList($store_id)
@@ -90,7 +80,7 @@ class OrderRepository
         $store = $name_store->store;
         $store_id = $store_id;
 
-        return compact('data', 'store', 'store_id');
+        return response()->json(['status' => 200, 'message' => "OKE", 'data' => $data, 'store' => $store, 'store_id' => $store_id]);
     }
 
     public function orderListStore($request)
