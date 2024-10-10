@@ -1,6 +1,8 @@
 <?php
 
+use App\Domain\MasterData\Entities\Group;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StoreController;
@@ -56,4 +58,19 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'role:manager|store'])->grou
     Route::post('/user', [UserController::class, 'store']);
     Route::put('/user/{id}', [UserController::class, 'update']);
     Route::delete('/user/{id}', [UserController::class, 'destroy']);
+
+    Route::get('/store', [StoreController::class, 'index']);
+    Route::post('/store', [StoreController::class, 'store']);
+    Route::put('/store/{id}', [StoreController::class, 'update']);
+    Route::delete('/store/{id}', [StoreController::class, 'delete']);
+
+    Route::get('/towing', [TowingController::class, 'index']);
+    Route::post('/towing', [TowingController::class, 'store']);
+    Route::put('/towing/{id}', [TowingController::class, 'update']);
+    Route::delete('/towing/{id}', [TowingController::class, 'delete']);
+
+    Route::get('/group', [GroupController::class, 'index']);
+    Route::post('/group', [GroupController::class, 'store']);
+    Route::put('/group/{id}', [GroupController::class, 'update']);
+    Route::delete('/group/{id}', [GroupController::class, 'delete']);
 });

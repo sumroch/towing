@@ -26,17 +26,18 @@ class OrderRepository
 
     public function calender($request)
     {
-        $disable_date = $this->model::select(
-            DB::raw("DATE_FORMAT(date_confirm,'%Y-%m-%d') as date_confirm")
-        )
-            ->where('is_confirm', '1')
-            ->pluck('date_confirm');
+        // $disable_date = $this->model::select(
+        //     DB::raw("DATE_FORMAT(date_confirm,'%Y-%m-%d') as date_confirm")
+        // )
+        //     ->where('is_confirm', '1')
+        //     ->pluck('date_confirm');
 
-        $disable_date = $disable_date->unique();
+        // $disable_date = $disable_date->unique();
 
         $store = $this->model::select(
             'orders.id',
-            DB::raw("DATE_FORMAT(date_confirm,'%a, %d %b %Y') as date_confirm"),
+            DB::raw("DATE_FORMAT(date_confirm,'%Y-%m-%d') as date_confirm"),
+            DB::raw("DATE_FORMAT(date_confirm,'%a, %d %b %Y') as date_desc"),
             'towing.name as towing',
             'store_origin.name as store_origin',
             'store_destination.name as store_destination',
@@ -50,8 +51,8 @@ class OrderRepository
             ->orderBy('orders.created_at', 'desc')
             ->get();
 
-        // return $disable_date;
-        return compact('disable_date', 'store');
+        return $store;
+        // return compact('disable_date', 'store');
     }
     public function orderList($store_id)
     {
