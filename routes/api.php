@@ -22,7 +22,7 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/data-driver', [UserController::class, 'dataDriver']);
 
     Route::get('/home', [HomeController::class, 'index']);
-    Route::get('/calender', [HomeController::class, 'calender']); //belum di buat data Api
+    Route::get('/calender', [HomeController::class, 'calender']);
     Route::get('/store/{store_id}', [HomeController::class, 'orderList']);
     Route::get('/home-store', [HomeController::class, 'orderListStore']);
 
