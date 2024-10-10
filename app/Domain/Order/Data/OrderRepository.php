@@ -35,13 +35,19 @@ class OrderRepository
         $disable_date = $disable_date->unique();
 
         $store = $this->model::select(
-            'id',
-            DB::raw("DATE_FORMAT(date_confirm,'%Y-%m-%d') as date_confirm"),
-            'store_origin',
-            'store_destination',
+            'orders.id',
+            DB::raw("DATE_FORMAT(date_confirm,'%a, %d %b %Y') as date_confirm"),
+            'towing.name as towing',
+            'store_origin.name as store_origin',
+            'store_destination.name as store_destination',
             'pic_1',
             'pic_2',
-        )->where('is_confirm', '1')
+        )
+            ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
+            ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->join('towing', 'towing.id', '=', 'orders.towing_id')
+            ->where('is_confirm', '1')
+            ->orderBy('orders.created_at', 'desc')
             ->get();
 
         // return $disable_date;
