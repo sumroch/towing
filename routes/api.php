@@ -24,13 +24,15 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/store/{store_id}', [HomeController::class, 'orderList']);
     Route::get('/home-store', [HomeController::class, 'orderListStore']);
 
+    Route::middleware(['role:manager'])->group(function () {
+        Route::get('/order/{order_id}', [OrderController::class, 'showOrderManager']);
+        Route::put('/order-confirm/{order_id}', [OrderController::class, 'updateConfirm']);
+    });
+
     Route::middleware(['role:store'])->group(function () {
         Route::put('/order/{order_id}', [OrderController::class, 'update']);
     });
 
-    Route::middleware(['role:manager'])->group(function () {
-        Route::put('/order-confirm/{order_id}', [OrderController::class, 'updateConfirm']);
-    });
 
     Route::middleware(['role:manager|store'])->group(function () {
         Route::post('/order', [OrderController::class, 'store']);

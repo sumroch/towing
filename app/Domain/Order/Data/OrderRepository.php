@@ -36,8 +36,11 @@ class OrderRepository
 
         $store = $this->model::select(
             'id',
+            DB::raw("DATE_FORMAT(date_confirm,'%Y-%m-%d') as date_confirm"),
             'store_origin',
-            'store_destination'
+            'store_destination',
+            'pic_1',
+            'pic_2',
         )->where('is_confirm', '1')
             ->get();
 

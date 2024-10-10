@@ -22,6 +22,13 @@ class OrderController extends Controller
         return $this->apiResponseSuccess($order);
     }
 
+    public function showOrderManager($order_id)
+    {
+        $order = $this->orderRepository->getById($order_id);
+
+        return $this->apiResponseSuccess($order);
+    }
+
     public function update(OrderRequest $request, OrderManagement $orderManagement, $order_id)
     {
         $order = $orderManagement->getUpdate($request, $order_id);
