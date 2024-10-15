@@ -49,8 +49,6 @@ class OrderController extends Controller
 
     public function updateOrderDriver(OrderRequest $request, $order_id)
     {
-        $order = $this->repository->getUpdateOrderDriver($request, $order_id);
-
-        return $this->apiResponseSuccess($order);
+        return $this->apiResponseSuccess($this->repository->getUpdateOrderDriver($request, $order_id));
     }
 }
