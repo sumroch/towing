@@ -47,7 +47,7 @@ class UserRepository
             ->orderBy('users.created_at', 'desc')
             ->get();
 
-        return DataTables::of($data)->toJson();
+        return $data;
     }
 
     public function store($request)
