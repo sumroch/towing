@@ -34,7 +34,7 @@ class TowingController extends Controller
         return $this->apiResponseSuccess($this->repository->update($id, $request->only('name')));
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         return $this->apiResponseSuccess($this->repository->delete($id));
     }

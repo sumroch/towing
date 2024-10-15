@@ -34,7 +34,7 @@ class StoreController extends Controller
         return $this->apiResponseSuccess($this->repository->update($id, $request->only('name', 'group_id')));
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         return $this->apiResponseSuccess($this->repository->delete($id));
     }

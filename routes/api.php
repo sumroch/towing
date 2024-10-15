@@ -50,23 +50,8 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
 Route::prefix('admin')->middleware(['auth:sanctum', 'role:manager|store'])->group(function () {
     Route::get('/data-role', [UserController::class, 'dataRole']);
 
-    Route::get('/user', [UserController::class, 'index']);
-    Route::post('/user', [UserController::class, 'store']);
-    Route::put('/user/{id}', [UserController::class, 'update']);
-    Route::delete('/user/{id}', [UserController::class, 'delete']);
-
-    Route::get('/store', [StoreController::class, 'index']);
-    Route::post('/store', [StoreController::class, 'store']);
-    Route::put('/store/{id}', [StoreController::class, 'update']);
-    Route::delete('/store/{id}', [StoreController::class, 'delete']);
-
-    Route::get('/towing', [TowingController::class, 'index']);
-    Route::post('/towing', [TowingController::class, 'store']);
-    Route::put('/towing/{id}', [TowingController::class, 'update']);
-    Route::delete('/towing/{id}', [TowingController::class, 'delete']);
-
-    Route::get('/group', [GroupController::class, 'index']);
-    Route::post('/group', [GroupController::class, 'store']);
-    Route::put('/group/{id}', [GroupController::class, 'update']);
-    Route::delete('/group/{id}', [GroupController::class, 'delete']);
+    Route::resource('/user', UserController::class);
+    Route::resource('/store', StoreController::class);
+    Route::resource('/towing', TowingController::class);
+    Route::resource('/group', GroupController::class);
 });

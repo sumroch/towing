@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\MasterData\Application\UserManagement;
 use App\Domain\MasterData\Data\UserRepository;
 use App\Domain\MasterData\Validators\UserRequest;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -24,15 +22,7 @@ class UserController extends Controller
 
     public function dataRole(Request $request)
     {
-        $roles = Role::when($request->user()->hasRole('manager'), function ($query) {
-            $query->where('name', '!=', 'manager');
-        })
-            ->when($request->user()->hasRole('store'), function ($query) {
-                $query->whereNotIn('name', ['manager', 'store']);
-            })
-            ->pluck('name');
-
-        return response()->json(['status' => 200, 'message' => "OKE", 'store' => $roles]);
+        return $this->apiResponseSuccess($this->repository->role($request));
     }
 
     public function index(Request $request)
@@ -40,7 +30,7 @@ class UserController extends Controller
         return $this->repository->index($request);
     }
 
-    public function store(UserRequest $request, UserManagement $userManagement)
+    public function store(UserRequest $request)
     {
         $request->merge(['password', bcrypt($request->password)]);
         $user = $this->repository->store($request);
@@ -49,15 +39,15 @@ class UserController extends Controller
         return $this->apiResponseSuccess($user);
     }
 
-    public function update(UserManagement $userManagement, UserRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $data = $userManagement->getUpdate($request, $id);
-        $data->syncRoles(is_array($request->roles) ? $request->roles : [$request->roles]);
+        $data = $this->repository->getUpdate($request, $id);
+        $data->syncRoles(is_array($request->role) ? $request->role : [$request->role]);
 
         return $this->apiResponseSuccess($data);
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         return $this->apiResponseSuccess($this->repository->delete($id));
     }

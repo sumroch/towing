@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\Order\Application\OrderManagement;
 use App\Domain\Order\Data\OrderRepository;
 use App\Domain\Order\Validators\OrderRequest;
 
@@ -38,23 +37,19 @@ class OrderController extends Controller
         return $this->apiResponseSuccess($this->repository->getById($order_id));
     }
 
-    public function update(OrderRequest $request, OrderManagement $orderManagement, $order_id)
+    public function update(OrderRequest $request, $order_id)
     {
-        $order = $orderManagement->getUpdate($request, $order_id);
-
-        return $this->apiResponseSuccess($order);
+        return $this->apiResponseSuccess($this->repository->getUpdate($request, $order_id));
     }
 
-    public function updateConfirm(OrderRequest $request, OrderManagement $orderManagement, $order_id)
+    public function updateConfirm(OrderRequest $request, $order_id)
     {
-        $order = $orderManagement->getUpdateConfirm($request, $order_id);
-
-        return $this->apiResponseSuccess($order);
+        return $this->apiResponseSuccess($this->repository->getUpdateConfirm($request, $order_id));
     }
 
-    public function updateOrderDriver(OrderRequest $request, OrderManagement $orderManagement, $order_id)
+    public function updateOrderDriver(OrderRequest $request, $order_id)
     {
-        $order = $orderManagement->getUpdateOrderDriver($request, $order_id);
+        $order = $this->repository->getUpdateOrderDriver($request, $order_id);
 
         return $this->apiResponseSuccess($order);
     }
