@@ -53,7 +53,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'role:manager|store'])->grou
     Route::get('/user', [UserController::class, 'index']);
     Route::post('/user', [UserController::class, 'store']);
     Route::put('/user/{id}', [UserController::class, 'update']);
-    Route::delete('/user/{id}', [UserController::class, 'destroy']);
+    Route::delete('/user/{id}', [UserController::class, 'delete']);
 
     Route::get('/store', [StoreController::class, 'index']);
     Route::post('/store', [StoreController::class, 'store']);

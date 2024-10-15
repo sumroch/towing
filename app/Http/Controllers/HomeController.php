@@ -7,44 +7,44 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    protected $orderRepository;
+    protected $repository;
 
-    public function __construct(OrderRepository $orderRepository)
+    public function __construct(OrderRepository $repository)
     {
-        $this->orderRepository = $orderRepository;
+        $this->repository = $repository;
     }
     public function index(Request $request)
     {
-        return $this->apiResponseSuccess($this->orderRepository->home($request));
+        return $this->apiResponseSuccess($this->repository->home($request));
     }
 
     public function calender(Request $request)
     {
-        return $this->apiResponseSuccess($this->orderRepository->calender($request));
+        return $this->apiResponseSuccess($this->repository->calender($request));
     }
 
     public function orderList($store_id)
     {
-        return $this->orderRepository->orderList($store_id);
+        return $this->repository->orderList($store_id);
     }
 
     public function orderListStore(Request $request)
     {
-        return $this->apiResponseSuccess($this->orderRepository->orderListStore($request));
+        return $this->apiResponseSuccess($this->repository->orderListStore($request));
     }
 
     public function driverOrderList(Request $request)
     {
-        return $this->apiResponseSuccess($this->orderRepository->driverOrderList($request));
+        return $this->apiResponseSuccess($this->repository->driverOrderList($request));
     }
 
     public function storeHistory(Request $request)
     {
-        return $this->apiResponseSuccess($this->orderRepository->storeHistory($request));
+        return $this->apiResponseSuccess($this->repository->storeHistory($request));
     }
 
     public function driverHistory(Request $request)
     {
-        return $this->apiResponseSuccess($this->orderRepository->driverHistory($request));
+        return $this->apiResponseSuccess($this->repository->driverHistory($request));
     }
 }

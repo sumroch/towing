@@ -3,46 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Domain\MasterData\Data\TowingRepository;
-use App\Domain\MasterData\Entities\Towing;
 use App\Domain\MasterData\Validators\TowingRequest;
 
 class TowingController extends Controller
 {
-    protected $towingRepository;
+    protected $repository;
 
-    public function __construct(TowingRepository $towingRepository)
+    public function __construct(TowingRepository $repository)
     {
-        $this->towingRepository = $towingRepository;
+        $this->repository = $repository;
     }
 
     public function dataTowing()
     {
-        $towing = $this->towingRepository->call();
-
-        return response()->json(['status' => 200, 'message' => "OKE", 'towing' => $towing]);
+        return $this->apiResponseSuccess($this->repository->call());
     }
 
     public function index()
     {
-        $towing = $this->towingRepository->index();
-        return $towing;
+        return $this->repository->index();
     }
 
     public function store(TowingRequest $request)
     {
-        $towing = $this->towingRepository->store($request->only('name'));
-
-        return $this->apiResponseSuccess($towing);
+        return $this->apiResponseSuccess($this->repository->store($request->only('name')));
     }
 
     public function update(TowingRequest $request, $id)
     {
-        $towing = $this->towingRepository->update($id, $request->only('name'));
-        return $this->apiResponseSuccess($towing);
+        return $this->apiResponseSuccess($this->repository->update($id, $request->only('name')));
     }
 
     public function delete($id)
     {
-        return $this->apiResponseSuccess($this->towingRepository->delete($id));
+        return $this->apiResponseSuccess($this->repository->delete($id));
     }
 }

@@ -8,25 +8,34 @@ use App\Domain\Order\Validators\OrderRequest;
 
 class OrderController extends Controller
 {
-    protected $orderRepository;
+    protected $repository;
 
-    public function __construct(OrderRepository $orderRepository)
+    public function __construct(OrderRepository $repository)
     {
-        $this->orderRepository = $orderRepository;
+        $this->repository = $repository;
     }
 
     public function store(OrderRequest $request)
     {
-        $order = $this->orderRepository->store($request->only('car_name', 'number_plate', 'car_color', 'car_category', 'car_condition', 'memo', 'date', 'time', 'pic_1', 'pic_2', 'store_origin', 'store_destination'));
-
-        return $this->apiResponseSuccess($order);
+        return $this->apiResponseSuccess($this->repository->store($request->only(
+            'car_name',
+            'number_plate',
+            'car_color',
+            'car_category',
+            'car_condition',
+            'memo',
+            'date',
+            'time',
+            'pic_1',
+            'pic_2',
+            'store_origin',
+            'store_destination'
+        )));
     }
 
     public function showOrderManager($order_id)
     {
-        $order = $this->orderRepository->getById($order_id);
-
-        return $this->apiResponseSuccess($order);
+        return $this->apiResponseSuccess($this->repository->getById($order_id));
     }
 
     public function update(OrderRequest $request, OrderManagement $orderManagement, $order_id)

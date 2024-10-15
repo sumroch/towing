@@ -7,40 +7,35 @@ use App\Domain\MasterData\Validators\StoreRequest;
 
 class StoreController extends Controller
 {
-    protected $storeRepository;
+    protected $repository;
 
-    public function __construct(StoreRepository $storeRepository)
+    public function __construct(StoreRepository $repository)
     {
-        $this->storeRepository = $storeRepository;
+        $this->repository = $repository;
     }
 
     public function dataStore()
     {
-        $store = $this->storeRepository->call();
-
-        return response()->json(['status' => 200, 'message' => "OKE", 'store' => $store]);
+        return $this->apiResponseSuccess($this->repository->call());
     }
 
     public function index()
     {
-        $store = $this->storeRepository->index();
-        return $store;
+        return $this->repository->index();
     }
 
     public function store(StoreRequest $request)
     {
-        $store = $this->storeRepository->store($request->only('name', 'group_id'));
-        return $this->apiResponseSuccess($store);
+        return $this->apiResponseSuccess($this->repository->store($request->only('name', 'group_id')));
     }
 
     public function update(StoreRequest $request, $id)
     {
-        $store = $this->storeRepository->update($id, $request->only('name', 'group_id'));
-        return $this->apiResponseSuccess($store);
+        return $this->apiResponseSuccess($this->repository->update($id, $request->only('name', 'group_id')));
     }
 
     public function delete($id)
     {
-        return $this->apiResponseSuccess($this->storeRepository->delete($id));
+        return $this->apiResponseSuccess($this->repository->delete($id));
     }
 }

@@ -10,17 +10,16 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    protected $userRepository;
+    protected $repository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $repository)
     {
-        $this->userRepository = $userRepository;
+        $this->repository = $repository;
     }
 
     public function dataDriver()
     {
-        $driver = $this->userRepository->call();
-        return response()->json(['status' => 200, 'message' => "OKE", 'store' => $driver]);
+        return $this->apiResponseSuccess($this->repository->call());
     }
 
     public function dataRole(Request $request)
@@ -38,15 +37,13 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $user = $this->userRepository->index($request);
-
-        return $user;
+        return $this->repository->index($request);
     }
 
     public function store(UserRequest $request, UserManagement $userManagement)
     {
         $request->merge(['password', bcrypt($request->password)]);
-        $user = $this->userRepository->store($request);
+        $user = $this->repository->store($request);
         $user->assignRole($request->role);
 
         return $this->apiResponseSuccess($user);
@@ -60,8 +57,8 @@ class UserController extends Controller
         return $this->apiResponseSuccess($data);
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
-        return $this->apiResponseSuccess($this->userRepository->delete($id));
+        return $this->apiResponseSuccess($this->repository->delete($id));
     }
 }

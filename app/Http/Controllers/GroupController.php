@@ -7,33 +7,30 @@ use Illuminate\Http\Request;
 
 class GroupController extends Controller
 {
-    protected $groupRepository;
+    protected $repository;
 
-    public function __construct(GroupRepository $groupRepository)
+    public function __construct(GroupRepository $repository)
     {
-        $this->groupRepository = $groupRepository;
+        $this->repository = $repository;
     }
 
     public function index()
     {
-        $data = $this->groupRepository->index();
-        return $data;
+        return $this->repository->index();
     }
 
     public function store(Request $request)
     {
-        $data = $this->groupRepository->store($request->only('name'));
-        return $this->apiResponseSuccess($data);
+        return $this->apiResponseSuccess($this->repository->store($request->only('name')));
     }
 
     public function update(Request $request, $id)
     {
-        $data = $this->groupRepository->update($id, $request->only('name'));
-        return $this->apiResponseSuccess($data);
+        return $this->apiResponseSuccess($this->repository->update($id, $request->only('name')));
     }
 
     public function delete($id)
     {
-        return $this->apiResponseSuccess($this->groupRepository->delete($id));
+        return $this->apiResponseSuccess($this->repository->delete($id));
     }
 }
