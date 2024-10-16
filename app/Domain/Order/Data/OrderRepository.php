@@ -124,6 +124,40 @@ class OrderRepository
             ->get();
     }
 
+    public function showOrder($order_id)
+    {
+        return $this->model::select(
+            'orders.id',
+            'car_name',
+            'number_plate',
+            'car_color',
+            'car_category',
+            'car_condition',
+            'memo',
+            'date',
+            'time',
+            DB::raw('CONCAT(date, " ", time) as date'),
+            'pic_1',
+            'pic_2',
+            'store_origin.name as store_origin',
+            'store_destination.name as store_destination',
+            "date_confirm",
+            "time_confirm",
+            "towing.name as towing",
+            "is_confirm",
+            "is_done",
+            "driver_id",
+            "users.name as driver_name",
+            'is_confirm'
+        )
+            ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
+            ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->join('towing', 'towing.id', '=', 'orders.towing_id')
+            ->join('users', 'users.id', '=', 'orders.driver_id')
+            ->where('orders.id', $order_id)
+            ->first();
+    }
+
     public function driverOrderList($request)
     {
         return $this->model::select(
