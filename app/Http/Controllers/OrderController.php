@@ -32,6 +32,10 @@ class OrderController extends Controller
         )));
     }
 
+    public function showOrderStore($order_id)
+    {
+        return $this->apiResponseSuccess($this->repository->showOrderStore($order_id));
+    }
     public function showOrderManager($order_id)
     {
         return $this->apiResponseSuccess($this->repository->showOrder($order_id));

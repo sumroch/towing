@@ -124,6 +124,36 @@ class OrderRepository
             ->get();
     }
 
+    public function showOrderStore($order_id)
+    {
+        return $this->model::select(
+            'orders.id',
+            'car_name',
+            'number_plate',
+            'car_color',
+            'car_category',
+            'car_condition',
+            'memo',
+            'date',
+            'time',
+            'pic_1',
+            'pic_2',
+            'store_origin',
+            'store_destination',
+            "date_confirm",
+            "time_confirm",
+            "is_confirm",
+            "is_done",
+            "driver_id",
+            'is_confirm'
+        )
+            ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
+            ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->where('is_confirm', '0')
+            ->where('orders.id', $order_id)
+            ->first();
+    }
+
     public function showOrder($order_id)
     {
         return $this->model::select(
@@ -142,17 +172,17 @@ class OrderRepository
             'store_destination',
             "date_confirm",
             "time_confirm",
-            "towing.name as towing",
+            // "towing.name as towing",
             "is_confirm",
             "is_done",
             "driver_id",
-            "users.name as driver_name",
+            // "users.name as driver_name",
             'is_confirm'
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
-            ->join('towing', 'towing.id', '=', 'orders.towing_id')
-            ->join('users', 'users.id', '=', 'orders.driver_id')
+            // ->join('towing', 'towing.id', '=', 'orders.towing_id')
+            // ->join('users', 'users.id', '=', 'orders.driver_id')
             ->where('orders.id', $order_id)
             ->first();
     }
