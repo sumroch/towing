@@ -136,7 +136,6 @@ class OrderRepository
             'memo',
             'date',
             'time',
-            DB::raw('CONCAT(date, " ", time) as date'),
             'pic_1',
             'pic_2',
             'store_origin.name as store_origin',
