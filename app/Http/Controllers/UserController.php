@@ -27,7 +27,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        return $this->apiResponseSuccess($this->repository->index($request));
+        return $this->repository->index($request);
     }
 
     public function store(UserRequest $request)
