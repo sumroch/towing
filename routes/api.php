@@ -43,6 +43,7 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
 
     Route::middleware(['role:driver'])->group(function () {
         Route::get('/driver-order-list', [HomeController::class, 'driverOrderList']);
+        Route::get('/driver-order/{oder_id}', [HomeController::class, 'showDriverOrder']);
         Route::put('/driver-order/{order_id}', [OrderController::class, 'updateOrderDriver']);
         Route::get('/driver-history', [HomeController::class, 'driverHistory']);
     });

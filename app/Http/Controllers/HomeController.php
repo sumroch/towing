@@ -38,6 +38,11 @@ class HomeController extends Controller
         return $this->apiResponseSuccess($this->repository->driverOrderList($request));
     }
 
+    public function showDriverOrder($order_id)
+    {
+        return $this->apiResponseSuccess($this->repository->showDriverOrder($order_id));
+    }
+
     public function storeHistory(Request $request)
     {
         return $this->apiResponseSuccess($this->repository->storeHistory($request));

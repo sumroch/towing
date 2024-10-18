@@ -227,6 +227,34 @@ class OrderRepository
             ->get();
     }
 
+    public function showDriverOrder($order_id)
+    {
+        return $this->model::select(
+            'orders.id',
+            'car_name',
+            'number_plate',
+            'car_color',
+            'car_category',
+            'car_condition',
+            'memo',
+            'date',
+            'time',
+            'pic_1',
+            'pic_2',
+            'store_origin',
+            'store_destination',
+            'time_confirm',
+            'date_confirm',
+            'driver_id',
+            'towing_id',
+            "is_confirm",
+            "is_done",
+
+        )
+            ->where('orders.id', $order_id)
+            ->first();
+    }
+
     public function storeHistory($request)
     {
         return $this->model::select(
