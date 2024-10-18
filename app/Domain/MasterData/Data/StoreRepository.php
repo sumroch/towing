@@ -25,7 +25,7 @@ class StoreRepository
 
     public function index()
     {
-        $data = $this->model->select('stores.id', 'stores.name', 'groups.id as group_name', 'groups.name as group_name')
+        $data = $this->model->select('stores.id', 'stores.name', 'groups.id as group_id')
             ->join('groups', 'groups.id', '=', 'stores.group_id')
             ->orderBy('stores.created_at', 'desc')
             ->get();
