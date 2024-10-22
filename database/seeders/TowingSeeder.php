@@ -16,7 +16,7 @@ class TowingSeeder extends Seeder
             ['name' => 'Towing 1'],
             ['name' => 'Towing 2'],
             ['name' => 'Towing 3'],
-            ['name' => 'other'],
+            ['name' => 'Other'],
         ]);
     }
 }
