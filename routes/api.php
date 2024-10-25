@@ -1,6 +1,5 @@
 <?php
 
-use App\Domain\MasterData\Entities\Group;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
