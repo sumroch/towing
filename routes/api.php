@@ -33,11 +33,9 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
     Route::middleware(['role:manager|store'])->group(function () {
         Route::get('/edit-store/{order_id}', [OrderController::class, 'showOrderStore']);
         Route::post('/order', [OrderController::class, 'store']);
-        Route::get('/store-history', [HomeController::class, 'storeHistory']);
-    });
-
-    Route::middleware(['role:store'])->group(function () {
         Route::put('/order/{order_id}', [OrderController::class, 'update']);
+        Route::delete('/order/{order_id}', [OrderController::class, 'destroy']);
+        Route::get('/store-history', [HomeController::class, 'storeHistory']);
     });
 
     Route::middleware(['role:driver'])->group(function () {
@@ -50,6 +48,9 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
 
 Route::prefix('admin')->middleware(['auth:sanctum', 'role:manager|store'])->group(function () {
     Route::get('/data-role', [UserController::class, 'dataRole']);
+
+    Route::get('/order', [OrderController::class, 'index']);
+    Route::delete('/order/{order_id}', [OrderController::class, 'destroy']);
 
     Route::resource('/user', UserController::class);
     Route::resource('/store', StoreController::class);

@@ -14,6 +14,11 @@ class OrderController extends Controller
         $this->repository = $repository;
     }
 
+    public function index()
+    {
+        return $this->repository->index();
+    }
+
     public function store(OrderRequest $request)
     {
         return $this->apiResponseSuccess($this->repository->store($request->only(
@@ -54,5 +59,10 @@ class OrderController extends Controller
     public function updateOrderDriver(OrderRequest $request, $order_id)
     {
         return $this->apiResponseSuccess($this->repository->getUpdateOrderDriver($request, $order_id));
+    }
+
+    public function destroy($order_id)
+    {
+        return $this->apiResponseSuccess($this->repository->delete($order_id));
     }
 }

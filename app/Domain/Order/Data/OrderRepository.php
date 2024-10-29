@@ -6,6 +6,7 @@ use App\Domain\MasterData\Entities\Group;
 use App\Domain\Order\Entities\Order;
 use App\Traits\RepositoryTrait;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class OrderRepository
 {
@@ -18,9 +19,26 @@ class OrderRepository
         $this->modelGroup   = $modelGroup;
     }
 
+    public function index()
+    {
+        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'car_color', 'car_category', 'car_condition', 'memo', 'date', 'time', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'towing.name as towing', 'driver_id', 'users.name as driver_name', 'is_confirm', 'is_done',)
+            ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
+            ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->join('towing', 'towing.id', '=', 'orders.towing_id')
+            ->join('users', 'users.id', '=', 'orders.driver_id')
+            ->where('is_done', '1')
+            ->orderBy('orders.created_at', 'desc');
+
+        return DataTables::of($data)->toJson();
+    }
+
     public function home($request)
     {
-        $group = $this->modelGroup::select('id', 'name')->with(['store'])->withCount('store as total_store')->get();
+        $group = $this->modelGroup::select('id', 'name')->with(['store' => function ($query) {
+            $query->withCount(['order as total_order' => function ($query) {
+                $query->where('is_confirm', '0');
+            }]);
+        }])->withCount('store as total_store')->get();
         return $group;
     }
 
@@ -74,11 +92,12 @@ class OrderRepository
             'pic_2',
             'store_origin.name as store_origin',
             'store_destination.name as store_destination',
-            'is_confirm'
+            'is_confirm',
+            'is_done',
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
-            ->where('is_confirm', '0')
+            ->where('is_done', '0')
             ->where('store_origin', $store_id)
             ->orderBy('orders.created_at', 'desc')
             ->get();
@@ -381,6 +400,11 @@ class OrderRepository
             'pic_2'         => $request->pic_2,
             'store_origin'  => $request->store_origin,
             'store_destination' => $request->store_destination,
+            'date_confirm'  => $request->date_confirm,
+            'time_confirm'  => $request->time_confirm,
+            'towing_id'     => $request->towing_id,
+            'driver_id'     => $request->driver_id,
+            'is_confirm'    => $request->is_confirm == null ? $order->is_confirm : 0,
         ]);
 
         return $order;

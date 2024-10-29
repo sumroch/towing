@@ -23,7 +23,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'success',
                 'code'  => '200',
-                'token' => $token,
+                'token'     => $token,
                 'data'  => [
                     'id'        => $request->user()->id,
                     'name'      => $request->user()->name,
@@ -44,9 +44,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json('berhasil');
+        return $this->apiResponseSuccess($request->user()->currentAccessToken()->delete());
     }
 
     public function me()
