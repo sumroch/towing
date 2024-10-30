@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domain\MasterData\Data\GroupRepository;
-use Illuminate\Http\Request;
+use App\Domain\MasterData\Validators\GroupRequest;
 
 class GroupController extends Controller
 {
@@ -19,12 +19,12 @@ class GroupController extends Controller
         return $this->repository->index();
     }
 
-    public function store(Request $request)
+    public function store(GroupRequest $request)
     {
         return $this->apiResponseSuccess($this->repository->store($request->only('name')));
     }
 
-    public function update(Request $request, $id)
+    public function update(GroupRequest $request, $id)
     {
         return $this->apiResponseSuccess($this->repository->update($id, $request->only('name')));
     }

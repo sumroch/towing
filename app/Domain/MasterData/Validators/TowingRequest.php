@@ -9,7 +9,7 @@ class TowingRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required|max:64',
+            'name'      => 'required|string|max:64',
         ];
     }
 }

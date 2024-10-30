@@ -4,13 +4,12 @@ namespace App\Domain\MasterData\Validators;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class GroupRequest extends FormRequest
 {
     public function rules()
     {
         return [
-            'name'      => 'required|string|max:64',
-            'group_id'  => 'required|integer|exists:groups,id',
+            'name' => 'required|string|max:64'
         ];
     }
 }

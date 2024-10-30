@@ -9,18 +9,18 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'car_name'      => 'required|max:64',
-            'number_plate'  => 'required|max:15',
-            'car_color'     => 'required|max:15',
-            'car_category'  => 'required|max:15',
-            'car_condition' => 'required|max:15',
-            'memo'          => 'required|max:191',
-            'date'          => 'required',
-            'time'          => 'nullable',
-            'pic_1'         => 'required|max:15',
-            'pic_2'         => 'required|max:15',
-            'store_origin'  => 'required|exists:stores,id',
-            'store_destination' => 'required|exists:stores,id',
+            'car_name'      => 'required|string|max:64',
+            'number_plate'  => 'required|string|max:15',
+            'car_color'     => 'required|string|max:15',
+            'car_category'  => 'required|string|max:15',
+            'car_condition' => 'required|string|max:15',
+            'memo'          => 'required|string|max:191',
+            'date'          => 'required|date',
+            'time'          => 'nullable|string',
+            'pic_1'         => 'required|string|max:15',
+            'pic_2'         => 'required|string|max:15',
+            'store_origin'  => 'required|integer|exists:stores,id',
+            'store_destination' => 'required|integer|exists:stores,id',
         ];
     }
 }

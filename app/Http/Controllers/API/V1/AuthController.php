@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API\V1;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -23,9 +24,9 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'success',
                 'code'  => '200',
-                'token'     => $token,
                 'data'  => [
                     'id'        => $request->user()->id,
+                    'token'     => $token,
                     'name'      => $request->user()->name,
                     'username'  => $request->user()->username,
                     'email'     => $request->user()->email,
