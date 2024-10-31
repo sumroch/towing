@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API\V1;
 
 use App\Domain\Order\Data\OrderRepository;
 use App\Domain\Order\Validators\OrderRequest;
+use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API\V1;
 
 use App\Domain\MasterData\Data\GroupRepository;
 use App\Domain\MasterData\Validators\GroupRequest;
+use App\Http\Controllers\Controller;
 
 class GroupController extends Controller
 {

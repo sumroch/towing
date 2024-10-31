@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API\V1;
 
 use App\Domain\MasterData\Data\StoreRepository;
 use App\Domain\MasterData\Validators\StoreRequest;
+use App\Http\Controllers\Controller;
 
 class StoreController extends Controller
 {

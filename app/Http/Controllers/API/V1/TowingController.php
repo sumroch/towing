@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API\V1;
 
 use App\Domain\MasterData\Data\TowingRepository;
 use App\Domain\MasterData\Validators\TowingRequest;
+use App\Http\Controllers\Controller;
 
 class TowingController extends Controller
 {
