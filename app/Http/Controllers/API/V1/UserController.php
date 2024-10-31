@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Domain\MasterData\Data\UserRepository;
 use App\Domain\MasterData\Validators\UserRequest;
+use App\Domain\MasterData\Validators\UserUpdateRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -40,7 +41,7 @@ class UserController extends Controller
         return $this->apiResponseSuccess($user);
     }
 
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         $data = $this->repository->getUpdate($request, $id);
         $data->syncRoles(is_array($request->role) ? $request->role : [$request->role]);
