@@ -5,10 +5,12 @@ namespace App\Domain\MasterData\Entities;
 use App\Domain\Order\Entities\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Store extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
     protected $table = "stores";
     protected $fillable =
     [

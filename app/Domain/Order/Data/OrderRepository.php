@@ -378,14 +378,10 @@ class OrderRepository
             ->orderBy('orders.updated_at', 'desc')
             ->get();
     }
-    public function findById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
 
     public function getUpdate($request, $order_id)
     {
-        $order = $this->model->findOrFail($order_id);
+        $order = $this->getById($order_id);
 
         $order->update([
             'car_name'      => $request->car_name,
@@ -412,7 +408,8 @@ class OrderRepository
 
     public function getUpdateConfirm($request, $order_id)
     {
-        $order = $this->model->findOrFail($order_id);
+
+        $order = $this->getById($order_id);
 
         $order->update([
             'car_name'      => $request->car_name,
@@ -439,7 +436,8 @@ class OrderRepository
 
     public function getUpdateOrderDriver($request, $order_id)
     {
-        $order = $this->model->findOrFail($order_id);
+
+        $order = $this->getById($order_id);
 
         $order->update([
             'car_name'      => $request->car_name,

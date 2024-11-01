@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('store_id')->nullable()->references('id')->on('stores')->onDelete('cascade');
             $table->string('remember_token', 100)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
