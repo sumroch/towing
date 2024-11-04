@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Domain\MasterData\Data\StoreRepository;
 use App\Domain\MasterData\Validators\StoreRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
@@ -17,12 +18,12 @@ class StoreController extends Controller
 
     public function dataStore()
     {
-        return $this->apiResponseSuccess($this->repository->call());
+        return $this->apiResponseSuccess($this->repository->callDataStore());
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->repository->index();
+        return $this->repository->call($request);
     }
 
     public function store(StoreRequest $request)

@@ -49,7 +49,24 @@ class OrderController extends Controller
 
     public function update(OrderRequest $request, $order_id)
     {
-        return $this->apiResponseSuccess($this->repository->getUpdate($request, $order_id));
+        return $this->apiResponseSuccess($this->repository->update($order_id, $request->only([
+            'car_name',
+            'number_plate',
+            'car_color',
+            'car_category',
+            'car_condition',
+            'memo',
+            'date',
+            'time',
+            'pic_1',
+            'pic_2',
+            'store_origin',
+            'store_destination',
+            'date_confirm',
+            'time_confirm',
+            'towing_id',
+            'driver_id',
+        ])));
     }
 
     public function updateConfirm(OrderRequest $request, $order_id)

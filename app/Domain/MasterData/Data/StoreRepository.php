@@ -16,7 +16,7 @@ class StoreRepository
         $this->model = $model;
     }
 
-    public function call()
+    public function callDataStore()
     {
         $data   = $this->model->select('id', 'name')->pluck('name', 'id');
 

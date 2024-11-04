@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Domain\MasterData\Data\TowingRepository;
 use App\Domain\MasterData\Validators\TowingRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class TowingController extends Controller
 {
@@ -17,12 +18,12 @@ class TowingController extends Controller
 
     public function dataTowing()
     {
-        return $this->apiResponseSuccess($this->repository->call());
+        return $this->apiResponseSuccess($this->repository->callDataTowing());
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->repository->index();
+        return $this->repository->call($request);
     }
 
     public function store(TowingRequest $request)

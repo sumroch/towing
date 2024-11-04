@@ -36,7 +36,7 @@ class OrderRepository
     {
         $group = $this->modelGroup::select('id', 'name')->with(['store' => function ($query) {
             $query->withCount(['order as total_order' => function ($query) {
-                $query->where('is_confirm', '0');
+                $query->where('status', 'active');
             }]);
         }])->withCount('store as total_store')->get();
         return $group;
@@ -56,7 +56,7 @@ class OrderRepository
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
-            ->where('is_confirm', '1')
+            ->where('status', 'confirmed')
             ->when($request->show == '1', function ($query) use ($request) {
                 return $query->where('towing_id', $request->show);
             })
@@ -73,7 +73,6 @@ class OrderRepository
             ->get();
 
         return $store;
-        // return compact('disable_date', 'store');
     }
     public function orderList($store_id)
     {
@@ -92,12 +91,12 @@ class OrderRepository
             'pic_2',
             'store_origin.name as store_origin',
             'store_destination.name as store_destination',
-            'is_confirm',
-            'is_done',
+            'status',
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
-            ->where('is_done', '0')
+            ->where('status', 'active')
+            ->orWhere('status', 'confirmed')
             ->where('store_origin', $store_id)
             ->orderBy('orders.created_at', 'desc')
             ->get();
@@ -159,16 +158,14 @@ class OrderRepository
             'pic_2',
             'store_origin',
             'store_destination',
-            "date_confirm",
-            "time_confirm",
-            "is_confirm",
-            "is_done",
-            "driver_id",
-            'is_confirm'
+            'date_confirm',
+            'time_confirm',
+            'status',
+            'driver_id',
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
-            ->where('is_confirm', '0')
+            ->where('status', 'active')
             ->where('orders.id', $order_id)
             ->first();
     }
@@ -189,9 +186,7 @@ class OrderRepository
             'pic_2',
             'store_origin',
             'store_destination',
-            "is_confirm",
-            "is_done",
-            'is_confirm'
+            "status",
         )
             ->where('orders.id', $order_id)
             ->first();
@@ -217,18 +212,15 @@ class OrderRepository
             "time_confirm",
             "towing_id",
             "towing.name as towing",
-            "is_confirm",
-            "is_done",
+            "status",
             "driver_id",
             "users.name as driver_name",
-            'is_confirm'
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
             ->join('users', 'users.id', '=', 'orders.driver_id')
-            ->where('is_confirm', '1')
-            ->where('is_done', '0')
+            ->where('status', 'confirmed')
             ->when($request->user()->id, fn($x) => $x->where('driver_id', $request->user()->id))
             ->when($request->show == '1', function ($query) use ($request) {
                 return $query->where('towing_id', $request->show);
@@ -266,9 +258,7 @@ class OrderRepository
             'time_confirm',
             'driver_id',
             'towing_id',
-            "is_confirm",
-            "is_done",
-
+            "status",
         )
             ->where('orders.id', $order_id)
             ->first();
@@ -294,18 +284,15 @@ class OrderRepository
             "date_confirm",
             "time_confirm",
             "towing.name as towing",
-            "is_confirm",
-            "is_done",
+            "status",
             "driver_id",
             "users.name as driver_name",
-            'is_confirm'
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
             ->join('users', 'users.id', '=', 'orders.driver_id')
-            ->where('is_confirm', '1')
-            ->where('is_done', '1')
+            ->where('status', 'done')
             ->when($request->user()->hasRole('manager') && $request->store_id != 'null', function ($query) use ($request) {
                 $query->where(function ($query) use ($request) {
                     $query->where('orders.store_origin', $request->filled('store_origin') ? $request->store_origin : $request->user()->store_id);
@@ -350,18 +337,15 @@ class OrderRepository
             "time_confirm",
             "towing_id",
             "towing.name as towing",
-            "is_confirm",
-            "is_done",
+            "status",
             "driver_id",
             "users.name as driver_name",
-            'is_confirm'
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
             ->join('users', 'users.id', '=', 'orders.driver_id')
-            ->where('is_confirm', '1')
-            ->where('is_done', '1')
+            ->where('status', 'done')
             ->when($request->user()->id, fn($x) => $x->where('driver_id', $request->user()->id))
             ->when($request->show == '1', function ($query) use ($request) {
                 return $query->where('towing_id', $request->show);
@@ -383,25 +367,44 @@ class OrderRepository
     {
         $order = $this->getById($order_id);
 
-        $order->update([
-            'car_name'      => $request->car_name,
-            'number_plate'  => $request->number_plate,
-            'car_color'     => $request->car_color,
-            'car_category'  => $request->car_category,
-            'car_condition' => $request->car_condition,
-            'memo'          => $request->memo,
-            'date'          => $request->date,
-            'time'          => $request->time,
-            'pic_1'         => $request->pic_1,
-            'pic_2'         => $request->pic_2,
-            'store_origin'  => $request->store_origin,
-            'store_destination' => $request->store_destination,
-            'date_confirm'  => $request->date_confirm,
-            'time_confirm'  => $request->time_confirm,
-            'towing_id'     => $request->towing_id,
-            'driver_id'     => $request->driver_id,
-            'is_confirm'    => $request->is_confirm == null ? $order->is_confirm : 0,
-        ]);
+        // $order->update([
+        //     'car_name'      => $request->car_name,
+        //     'number_plate'  => $request->number_plate,
+        //     'car_color'     => $request->car_color,
+        //     'car_category'  => $request->car_category,
+        //     'car_condition' => $request->car_condition,
+        //     'memo'          => $request->memo,
+        //     'date'          => $request->date,
+        //     'time'          => $request->time,
+        //     'pic_1'         => $request->pic_1,
+        //     'pic_2'         => $request->pic_2,
+        //     'store_origin'  => $request->store_origin,
+        //     'store_destination' => $request->store_destination,
+        //     'date_confirm'  => $request->date_confirm,
+        //     'time_confirm'  => $request->time_confirm,
+        //     'towing_id'     => $request->towing_id,
+        //     'driver_id'     => $request->driver_id,
+        //     'is_confirm'    => $request->is_confirm == null ? $order->is_confirm : 0,
+        // ]);
+
+        $order->update($order_id, $request->only([
+            'car_name',
+            'number_plate',
+            'car_color',
+            'car_category',
+            'car_condition',
+            'memo',
+            'date',
+            'time',
+            'pic_1',
+            'pic_2',
+            'store_origin',
+            'store_destination',
+            'date_confirm',
+            'time_confirm',
+            'towing_id',
+            'driver_id',
+        ]));
 
         return $order;
     }

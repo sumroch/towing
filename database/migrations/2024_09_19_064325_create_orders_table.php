@@ -25,8 +25,7 @@ return new class extends Migration
             $table->string('pic_2', 15);
             $table->date('date_confirm')->nullable();
             $table->string('time_confirm', 15)->nullable();
-            $table->boolean('is_confirm')->default(0);
-            $table->boolean('is_done')->default(0);
+            $table->string('status', 15)->nullable();
             $table->foreignId('towing_id')->nullable()->references('id')->on('towing')->onDelete('cascade');
             $table->foreignId('driver_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('store_origin')->nullable()->references('id')->on('stores')->onDelete('cascade');

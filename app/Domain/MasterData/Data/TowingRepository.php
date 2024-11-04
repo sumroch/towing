@@ -16,18 +16,9 @@ class TowingRepository
         $this->model = $model;
     }
 
-    public function call()
+    public function callDataTowing()
     {
         $data = $this->model->select('id', 'name')->pluck('name', 'id');
         return $data;
-    }
-
-    public function index()
-    {
-        $data = $this->model->select('id', 'name')
-            ->orderBy('towing.created_at', 'desc')
-            ->get();
-
-        return DataTables::of($data)->toJson();
     }
 }
