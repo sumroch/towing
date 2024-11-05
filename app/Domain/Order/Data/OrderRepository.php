@@ -160,13 +160,15 @@ class OrderRepository
             'store_destination',
             'date_confirm',
             'time_confirm',
-            'status',
             'driver_id',
+            'towing_id',
+            'status',
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
-            ->where('status', 'active')
             ->where('orders.id', $order_id)
+            ->where('status', 'active')
+            ->orWhere('status', 'confirmed')
             ->first();
     }
 
@@ -361,108 +363,5 @@ class OrderRepository
             })
             ->orderBy('orders.updated_at', 'desc')
             ->get();
-    }
-
-    public function getUpdate($request, $order_id)
-    {
-        $order = $this->getById($order_id);
-
-        // $order->update([
-        //     'car_name'      => $request->car_name,
-        //     'number_plate'  => $request->number_plate,
-        //     'car_color'     => $request->car_color,
-        //     'car_category'  => $request->car_category,
-        //     'car_condition' => $request->car_condition,
-        //     'memo'          => $request->memo,
-        //     'date'          => $request->date,
-        //     'time'          => $request->time,
-        //     'pic_1'         => $request->pic_1,
-        //     'pic_2'         => $request->pic_2,
-        //     'store_origin'  => $request->store_origin,
-        //     'store_destination' => $request->store_destination,
-        //     'date_confirm'  => $request->date_confirm,
-        //     'time_confirm'  => $request->time_confirm,
-        //     'towing_id'     => $request->towing_id,
-        //     'driver_id'     => $request->driver_id,
-        //     'is_confirm'    => $request->is_confirm == null ? $order->is_confirm : 0,
-        // ]);
-
-        $order->update($order_id, $request->only([
-            'car_name',
-            'number_plate',
-            'car_color',
-            'car_category',
-            'car_condition',
-            'memo',
-            'date',
-            'time',
-            'pic_1',
-            'pic_2',
-            'store_origin',
-            'store_destination',
-            'date_confirm',
-            'time_confirm',
-            'towing_id',
-            'driver_id',
-        ]));
-
-        return $order;
-    }
-
-    public function getUpdateConfirm($request, $order_id)
-    {
-
-        $order = $this->getById($order_id);
-
-        $order->update([
-            'car_name'      => $request->car_name,
-            'number_plate'  => $request->number_plate,
-            'car_color'     => $request->car_color,
-            'car_category'  => $request->car_category,
-            'car_condition' => $request->car_condition,
-            'memo'          => $request->memo,
-            'date'          => $request->date,
-            'time'          => $request->time,
-            'pic_1'         => $request->pic_1,
-            'pic_2'         => $request->pic_2,
-            'store_origin'  => $request->store_origin,
-            'store_destination' => $request->store_destination,
-            'date_confirm'  => $request->date_confirm,
-            'time_confirm'  => $request->time_confirm,
-            'towing_id'     => $request->towing_id,
-            'is_confirm'    => 1,
-            'driver_id'     => $request->driver_id,
-        ]);
-
-        return $order;
-    }
-
-    public function getUpdateOrderDriver($request, $order_id)
-    {
-
-        $order = $this->getById($order_id);
-
-        $order->update([
-            'car_name'      => $request->car_name,
-            'number_plate'  => $request->number_plate,
-            'car_color'     => $request->car_color,
-            'car_category'  => $request->car_category,
-            'car_condition' => $request->car_condition,
-            'memo'          => $request->memo,
-            'date'          => $request->date,
-            'time'          => $request->time,
-            'pic_1'         => $request->pic_1,
-            'pic_2'         => $request->pic_2,
-            'store_origin'  => $request->store_origin,
-            'store_destination' => $request->store_destination,
-            'date_confirm'  => $request->date_confirm,
-            'time_confirm'  => $request->time_confirm,
-            'towing_id'     => $request->towing_id,
-            'is_confirm'    => 1,
-            'is_done'       => 1,
-            'driver_id'     => $request->driver_id
-        ]);
-
-        return $order;
     }
 }

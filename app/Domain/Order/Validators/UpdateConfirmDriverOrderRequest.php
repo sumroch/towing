@@ -4,7 +4,7 @@ namespace App\Domain\Order\Validators;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrderRequest extends FormRequest
+class UpdateConfirmDriverOrderRequest extends FormRequest
 {
     public function rules()
     {
@@ -27,7 +27,7 @@ class OrderRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'status' => 'active',
+            'status' => 'done',
         ]);
     }
 }
