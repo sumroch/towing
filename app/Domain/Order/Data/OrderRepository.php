@@ -21,12 +21,12 @@ class OrderRepository
 
     public function index()
     {
-        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'car_color', 'car_category', 'car_condition', 'memo', 'date', 'time', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'towing.name as towing', 'driver_id', 'users.name as driver_name', 'is_confirm', 'is_done',)
+        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'car_color', 'car_category', 'car_condition', 'memo', 'date', 'time', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'towing.name as towing', 'driver_id', 'users.name as driver_name', 'status')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
             ->join('users', 'users.id', '=', 'orders.driver_id')
-            ->where('is_done', '1')
+            ->where('status', 'done')
             ->orderBy('orders.created_at', 'desc');
 
         return DataTables::of($data)->toJson();
