@@ -95,9 +95,9 @@ class OrderRepository
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->where('store_origin', $store_id)
             ->where('status', 'active')
             ->orWhere('status', 'confirmed')
-            ->where('store_origin', $store_id)
             ->orderBy('orders.created_at', 'desc')
             ->get();
 
