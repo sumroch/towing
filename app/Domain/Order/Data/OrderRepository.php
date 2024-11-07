@@ -96,9 +96,11 @@ class OrderRepository
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->where('store_origin', $store_id)
-            ->where('status', 'active')
-            ->orWhere('status', 'confirmed')
-            ->orderBy('orders.created_at', 'desc')
+            ->where(function ($query) {
+                $query->where('status', 'active')
+                    ->orWhere('status', 'confirmed');
+            })
+            ->orderBy('orders.updated_at', 'asc')
             ->get();
 
         $name_store = $this->model::select(
@@ -295,12 +297,15 @@ class OrderRepository
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
             ->join('users', 'users.id', '=', 'orders.driver_id')
             ->where('status', 'done')
-            ->when($request->user()->hasRole('manager') && $request->store_id != 'null', function ($query) use ($request) {
-                $query->where(function ($query) use ($request) {
-                    $query->where('orders.store_origin', $request->filled('store_origin') ? $request->store_origin : $request->user()->store_id);
-                });
-            })
-            ->when($request->user()->store_id, fn($x) => $x->where('store_origin', $request->user()->store_id))
+            ->when(
+                $request->user()->hasRole('manager'),
+                function ($query) use ($request) {
+                    if ($request->store_id) {
+                        $query->where('orders.store_origin', $request->store_id);
+                    }
+                },
+                fn($query) => $query->where('orders.store_origin', $request->user()->store_id)
+            )
             ->when($request->show == 'towing1', function ($query) use ($request) {
                 return $query->where('towing', $request->show);
             })
@@ -313,7 +318,6 @@ class OrderRepository
             ->when($request->show == 'others', function ($query) use ($request) {
                 return $query->where('towing', $request->show);
             })
-
             ->orderBy('orders.updated_at', 'desc')
             ->get();
     }
