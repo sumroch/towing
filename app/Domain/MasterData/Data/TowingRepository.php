@@ -4,7 +4,6 @@ namespace App\Domain\MasterData\Data;
 
 use App\Domain\MasterData\Entities\Towing;
 use App\Traits\RepositoryTrait;
-use Yajra\DataTables\DataTables;
 
 class TowingRepository
 {
