@@ -41,7 +41,7 @@ class UserRepository
 
     public function index()
     {
-        $data = $this->model->select('users.id', 'users.name', 'password', 'roles.name as role')
+        $data = $this->model->select('users.id', 'users.username', 'password', 'roles.name as role')
             ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->orderBy('users.created_at', 'desc')
@@ -52,7 +52,7 @@ class UserRepository
 
     public function store($request)
     {
-        $req = $request->only(['name', 'email', 'username', 'telephone', 'store_id']);
+        $req = $request->only(['username', 'store_id']);
 
         if ($request->filled('password')) {
             $req['password'] = bcrypt($request->password);
@@ -66,11 +66,8 @@ class UserRepository
         $data = $this->model->find($id);
 
         $data->update([
-            'name'     => $request->name,
-            'email'    => $request->email,
             'username' => $request->username,
             'password'  => bcrypt($request->password ? $request->password : $data->password),
-            'telephone' => $request->telephone,
             'store_id' => $request->store_id
         ]);
 

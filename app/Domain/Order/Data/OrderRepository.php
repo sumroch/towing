@@ -71,7 +71,7 @@ class OrderRepository
             'store_origin.name as store_origin',
             'store_destination.name as store_destination',
             "driver_id",
-            "users.name as driver_name",
+            "users.username as driver_name",
             DB::raw("DATE_FORMAT(date_confirm,'%Y-%m-%d') as date_confirm"),
             'towing.name as towing',
         )
@@ -123,6 +123,7 @@ class OrderRepository
                 $query->where('status', 'active')
                     ->orWhere('status', 'confirmed');
             })
+            ->orderBy('orders.created_at', 'desc')
             ->orderBy('orders.updated_at', 'asc')
             ->get();
 
@@ -192,8 +193,10 @@ class OrderRepository
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->where('orders.id', $order_id)
-            ->where('status', 'active')
-            ->orWhere('status', 'confirmed')
+            ->where(function ($query) {
+                $query->where('status', 'active')
+                    ->orWhere('status', 'confirmed');
+            })
             ->first();
     }
 

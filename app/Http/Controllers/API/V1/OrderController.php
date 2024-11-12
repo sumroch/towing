@@ -34,7 +34,7 @@ class OrderController extends Controller
             'number_plate',
             'car_color',
             'car_category',
-            'car_condition',
+            // 'car_condition',
             'memo',
             'date',
             'time',

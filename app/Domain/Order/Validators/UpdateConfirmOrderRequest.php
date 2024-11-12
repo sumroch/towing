@@ -13,7 +13,7 @@ class UpdateConfirmOrderRequest extends FormRequest
             'number_plate'  => 'required|string|max:15',
             'car_color'     => 'required|string|max:15',
             'car_category'  => 'required|string|max:15',
-            'car_condition' => 'required|string|max:15',
+            'car_condition' => 'nullable|string|max:15',
             'memo'          => 'required|string|max:191',
             'date'          => 'required|date',
             'time'          => 'nullable|string',

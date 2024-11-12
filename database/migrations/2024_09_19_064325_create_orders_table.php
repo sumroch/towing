@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('number_plate', 15);
             $table->string('car_color', 15);
             $table->string('car_category', 15);
-            $table->string('car_condition', 15);
+            $table->string('car_condition', 15)->nullable();
             $table->string('memo', 191)->nullable();
             $table->date('date');
             $table->string('time', 15)->nullable();
