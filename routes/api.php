@@ -50,6 +50,7 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
 Route::prefix('admin')->middleware(['auth:sanctum', 'role:manager|store'])->group(function () {
     Route::get('/data-role', [UserController::class, 'dataRole']);
 
+    Route::get('/order-progress', [OrderController::class, 'indexProgress']);
     Route::get('/order', [OrderController::class, 'index']);
     Route::delete('/order/{order_id}', [OrderController::class, 'destroy']);
 

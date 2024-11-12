@@ -22,6 +22,11 @@ class OrderController extends Controller
         return $this->repository->index();
     }
 
+    public function indexProgress()
+    {
+        return $this->repository->indexProgress();
+    }
+
     public function store(OrderRequest $request)
     {
         return $this->apiResponseSuccess($this->repository->store($request->only(
