@@ -23,7 +23,7 @@ class StoreController extends Controller
 
     public function index(Request $request)
     {
-        return $this->repository->call($request);
+        return $this->repository->index($request);
     }
 
     public function store(StoreRequest $request)
