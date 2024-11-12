@@ -46,16 +46,26 @@ class OrderRepository
     {
         $store = $this->model::select(
             'orders.id',
-            DB::raw("DATE_FORMAT(date_confirm,'%Y-%m-%d') as date_confirm"),
-            'towing.name as towing',
+            'car_name',
+            'number_plate',
+            'car_color',
+            'car_category',
+            'car_condition',
+            'memo',
+            "status",
+            'pic_2',
+            'pic_1',
             'store_origin.name as store_origin',
             'store_destination.name as store_destination',
-            'pic_1',
-            'pic_2',
+            "driver_id",
+            "users.name as driver_name",
+            DB::raw("DATE_FORMAT(date_confirm,'%Y-%m-%d') as date_confirm"),
+            'towing.name as towing',
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
+            ->join('users', 'users.id', '=', 'orders.driver_id')
             ->where('status', 'confirmed')
             ->when($request->show == '1', function ($query) use ($request) {
                 return $query->where('towing_id', $request->show);

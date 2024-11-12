@@ -15,6 +15,10 @@ class GroupController extends Controller
         $this->repository = $repository;
     }
 
+    public function dataGroup()
+    {
+        return $this->apiResponseSuccess($this->repository->callDataGroup());
+    }
     public function index()
     {
         return $this->repository->index();

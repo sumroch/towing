@@ -19,6 +19,7 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/data-store', [StoreController::class, 'dataStore']);
     Route::get('/data-towing', [TowingController::class, 'dataTowing']);
     Route::get('/data-driver', [UserController::class, 'dataDriver']);
+    Route::get('/data-group', [GroupController::class, 'dataGroup']);
 
     Route::get('/home', [HomeController::class, 'index']);
     Route::get('/calender', [HomeController::class, 'calender']);

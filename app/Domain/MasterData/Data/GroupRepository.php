@@ -16,6 +16,13 @@ class GroupRepository
         $this->model = $model;
     }
 
+    public function callDataGroup()
+    {
+        $data   = $this->model->select('id', 'name')->pluck('name', 'id');
+
+        return  $data;
+    }
+
     public function index()
     {
         $data = $this->model->select('id', 'name')
