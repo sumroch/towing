@@ -4,6 +4,7 @@ namespace App\Domain\MasterData\Data;
 
 use App\Domain\MasterData\Entities\User;
 use App\Traits\RepositoryTrait;
+use Dflydev\DotAccessData\Data;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 
@@ -34,7 +35,7 @@ class UserRepository
     {
         $data = $this->model::whereHas('roles', function ($query) {
             $query->where('name', 'driver');
-        })->select('id', 'name')->pluck('name', 'id');
+        })->select('id', 'username')->pluck('username', 'id');
 
         return $data;
     }
