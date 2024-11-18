@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         $admin->assignRole('manager');
 
         $admin = User::create([
-            'username'  => 'ashikaga',
+            'username'  => 'hanazono',
             'password'  => bcrypt('12345'),
             'store_id'  => 1
         ]);
