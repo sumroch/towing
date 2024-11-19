@@ -21,13 +21,7 @@ class OrderRequest extends FormRequest
             'pic_2'         => 'required|string|max:15',
             'store_origin'  => 'required|integer|exists:stores,id',
             'store_destination' => 'required|integer|exists:stores,id',
+            'status'        => 'nullable|string|max:15',
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'status' => 'active',
-        ]);
     }
 }

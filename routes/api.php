@@ -34,7 +34,8 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
     Route::middleware(['role:manager|store'])->group(function () {
         Route::get('/edit-store/{order_id}', [OrderController::class, 'showOrderStore']);
         Route::post('/order', [OrderController::class, 'store']);
-        Route::put('/order/{order_id}', [OrderController::class, 'update']);
+        Route::put('/order-store/{order_id}', [OrderController::class, 'update']);
+        Route::put('/order/{order_id}', [OrderController::class, 'updateOrder']);
         Route::delete('/order/{order_id}', [OrderController::class, 'destroy']);
         Route::get('/store-history', [HomeController::class, 'storeHistory']);
     });

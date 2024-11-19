@@ -49,7 +49,7 @@ class OrderRepository
     {
         $group = $this->modelGroup::select('id', 'name')->with(['store' => function ($query) {
             $query->withCount(['order as total_order' => function ($query) {
-                $query->where('status', 'active');
+                $query->where('status', 'ready');
             }]);
         }])->withCount('store as total_store')->get();
         return $group;
@@ -120,7 +120,8 @@ class OrderRepository
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->where('store_origin', $store_id)
             ->where(function ($query) {
-                $query->where('status', 'active')
+                $query->where('status', 'ready')
+                    ->orWhere('status', 'unready')
                     ->orWhere('status', 'confirmed');
             })
             ->orderBy('orders.created_at', 'desc')
@@ -158,11 +159,10 @@ class OrderRepository
             'store_origin.id as store_origin_id',
             'store_origin.name as store_origin',
             'store_destination.name as store_destination',
-            'is_confirm'
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
-            ->where('is_confirm', '0')
+            // ->where('is_confirm', '0')
             ->where('store_origin', $request->store_id)
             ->orderBy('orders.created_at', 'desc')
             ->get();
@@ -194,7 +194,8 @@ class OrderRepository
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->where('orders.id', $order_id)
             ->where(function ($query) {
-                $query->where('status', 'active')
+                $query->where('status', 'unready')
+                    ->orWhere('status', 'ready')
                     ->orWhere('status', 'confirmed');
             })
             ->first();

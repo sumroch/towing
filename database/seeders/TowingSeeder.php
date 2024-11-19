@@ -13,10 +13,10 @@ class TowingSeeder extends Seeder
     public function run(): void
     {
         Towing::insert([
-            ['name' => 'Towing 1'],
-            ['name' => 'Towing 2'],
-            ['name' => 'Towing 3'],
-            ['name' => 'Other'],
+            ['name' => '本社ダイナ'],
+            ['name' => 'キャンター'],
+            ['name' => 'ダイナ'],
+            ['name' => '自走可'],
         ]);
     }
 }
