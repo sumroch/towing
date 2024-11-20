@@ -115,14 +115,9 @@ class OrderRepository
             'store_origin.name as store_origin',
             'store_destination.name as store_destination',
             'status',
-            'date_confirm',
-            'time_confirm',
-            'towing_id',
-            'towing.name as towing_name'
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
-            ->join('towing', 'towing.id', '=', 'orders.towing_id')
             ->where('store_origin', $store_id)
             ->where(function ($query) {
                 $query->where('status', 'ready')
