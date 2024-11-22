@@ -145,4 +145,9 @@ class OrderController extends Controller
     {
         return $this->apiResponseSuccess($this->repository->delete($order_id));
     }
+
+    public function remove_done()
+    {
+        return $this->repository->remove_done();
+    }
 }

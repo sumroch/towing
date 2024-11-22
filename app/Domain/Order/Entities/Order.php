@@ -44,4 +44,21 @@ class Order extends Model
     {
         return $this->belongsTo(Store::class);
     }
+
+    public function remove_done()
+    {
+        $data = Order::all();
+        foreach ($data as $item) {
+            if ($item->status == 'done') {
+                $updated = strtotime($item->updated_at) + (180 * 1);
+                if ($updated < time()) {
+                    $item->delete();
+                }
+            }
+        }
+
+        // Order::where('status', 'done')
+        //     ->where('updated_at', '<', now()->subMinutes(180))
+        //     ->delete();
+    }
 }

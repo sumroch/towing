@@ -399,4 +399,15 @@ class OrderRepository
             ->orderBy('orders.updated_at', 'desc')
             ->get();
     }
+
+    public function remove_done()
+    {
+        $data = $this->model::all()->where('status', 'done');
+        foreach ($data as $item) {
+            $updated = strtotime($item->updated_at) + (180 * 1);
+            if ($updated < time()) {
+                $item->delete();
+            }
+        }
+    }
 }
