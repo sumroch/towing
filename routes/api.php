@@ -26,9 +26,6 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/store/{store_id}', [HomeController::class, 'orderList']);
     Route::get('/home-store', [HomeController::class, 'orderListStore']);
 
-    //Test Cron Job
-    Route::get('/remove-done-order', [OrderController::class, 'remove_done']);
-
     Route::middleware(['role:manager|store|driver'])->group(function () {
         Route::get('/order/{order_id}', [OrderController::class, 'showOrderManager']);
         Route::put('/order-confirm/{order_id}', [OrderController::class, 'updateConfirm']);

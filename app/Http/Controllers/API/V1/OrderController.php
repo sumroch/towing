@@ -7,6 +7,7 @@ use App\Domain\Order\Validators\OrderRequest;
 use App\Domain\Order\Validators\UpdateConfirmDriverOrderRequest;
 use App\Domain\Order\Validators\UpdateConfirmOrderRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -144,10 +145,5 @@ class OrderController extends Controller
     public function destroy($order_id)
     {
         return $this->apiResponseSuccess($this->repository->delete($order_id));
-    }
-
-    public function remove_done()
-    {
-        return $this->repository->remove_done();
     }
 }

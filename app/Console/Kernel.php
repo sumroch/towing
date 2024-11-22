@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Http\Controllers\API\V1\OrderController;
+use App\Order\Jobs\RemoveDoneOrders;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->call([OrderController::class, 'remove_done'])->everyMinute();
+
+        $schedule->job(new RemoveDoneOrders())->hourly();
     }
 
     /**

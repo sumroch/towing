@@ -6,6 +6,7 @@ use App\Domain\MasterData\Entities\Group;
 use App\Domain\Order\Entities\Order;
 use App\Traits\RepositoryTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 
 class OrderRepository
@@ -120,10 +121,12 @@ class OrderRepository
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->where('store_origin', $store_id)
             ->where(function ($query) {
-                $query->where('status', 'ready')
-                    ->orWhere('status', 'unready')
-                    ->orWhere('status', 'confirmed');
+                $query->where('status', 'done')
+                    ->where('orders.updated_at', '>=', now()->addDays(-3));
             })
+            ->orWhere('status', 'unready')
+            ->orWhere('status', 'ready')
+            ->orWhere('status', 'confirmed')
             ->orderBy('orders.created_at', 'desc')
             ->orderBy('orders.updated_at', 'asc')
             ->get();
@@ -384,30 +387,10 @@ class OrderRepository
             ->join('users', 'users.id', '=', 'orders.driver_id')
             ->where('status', 'done')
             ->when($request->user()->id, fn($x) => $x->where('driver_id', $request->user()->id))
-            ->when($request->show == '1', function ($query) use ($request) {
-                return $query->where('towing_id', $request->show);
-            })
-            ->when($request->show == '2', function ($query) use ($request) {
-                return $query->where('towing_id', $request->show);
-            })
-            ->when($request->show == '3', function ($query) use ($request) {
-                return $query->where('towing_id', $request->show);
-            })
-            ->when($request->show == '4', function ($query) use ($request) {
+            ->when($request->show, function ($query) use ($request) {
                 return $query->where('towing_id', $request->show);
             })
             ->orderBy('orders.updated_at', 'desc')
             ->get();
-    }
-
-    public function remove_done()
-    {
-        $data = $this->model::all()->where('status', 'done');
-        foreach ($data as $item) {
-            $updated = strtotime($item->updated_at) + (180 * 1);
-            if ($updated < time()) {
-                $item->delete();
-            }
-        }
     }
 }

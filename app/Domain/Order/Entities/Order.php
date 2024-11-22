@@ -7,10 +7,13 @@ use App\Domain\MasterData\Entities\Towing;
 use App\Domain\MasterData\Entities\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
     protected $table = "orders";
     protected $fillable = [
         "car_name",
@@ -43,22 +46,5 @@ class Order extends Model
     public function stores()
     {
         return $this->belongsTo(Store::class);
-    }
-
-    public function remove_done()
-    {
-        $data = Order::all();
-        foreach ($data as $item) {
-            if ($item->status == 'done') {
-                $updated = strtotime($item->updated_at) + (180 * 1);
-                if ($updated < time()) {
-                    $item->delete();
-                }
-            }
-        }
-
-        // Order::where('status', 'done')
-        //     ->where('updated_at', '<', now()->subMinutes(180))
-        //     ->delete();
     }
 }

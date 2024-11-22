@@ -31,6 +31,7 @@ return new class extends Migration
             $table->foreignId('store_origin')->nullable()->references('id')->on('stores')->onDelete('cascade');
             $table->foreignId('store_destination')->nullable()->references('id')->on('stores')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
