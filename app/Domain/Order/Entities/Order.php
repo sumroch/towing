@@ -33,6 +33,7 @@ class Order extends Model
         "driver_id",
         "store_origin",
         "store_destination",
+        "finished_at",
     ];
 
     public function towings()

@@ -139,6 +139,7 @@ class OrderController extends Controller
             'towing_id',
             'driver_id',
             'status',
+            'finished_at',
         ])));
     }
 

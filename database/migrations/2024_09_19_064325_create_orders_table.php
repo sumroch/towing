@@ -30,6 +30,7 @@ return new class extends Migration
             $table->foreignId('driver_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('store_origin')->nullable()->references('id')->on('stores')->onDelete('cascade');
             $table->foreignId('store_destination')->nullable()->references('id')->on('stores')->onDelete('cascade');
+            $table->timestamp('finished_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

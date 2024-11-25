@@ -122,7 +122,7 @@ class OrderRepository
             ->where('store_origin', $store_id)
             ->where(function ($query) {
                 $query->where('status', 'done')
-                    ->where('orders.updated_at', '>=', now()->addDays(-3));
+                    ->where('orders.finished_at', '>=', now()->addDays(-3));
             })
             ->orWhere('status', 'unready')
             ->orWhere('status', 'ready')
@@ -332,7 +332,7 @@ class OrderRepository
             ->join('users', 'users.id', '=', 'orders.driver_id')
             ->where(function ($query) {
                 $query->where('status', 'done')
-                    ->where('orders.updated_at', '>=', now()->addDays(-10));
+                    ->where('orders.finished_at', '>=', now()->addDays(-10));
             })
             ->when(
                 $request->user()->hasRole('manager'),
@@ -388,7 +388,10 @@ class OrderRepository
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
             ->join('users', 'users.id', '=', 'orders.driver_id')
-            ->where('status', 'done')
+            ->where(function ($query) {
+                $query->where('status', 'done')
+                    ->where('orders.finished_at', '>=', now()->addDays(-10));
+            })
             ->when($request->user()->id, fn($x) => $x->where('driver_id', $request->user()->id))
             ->when($request->show, function ($query) use ($request) {
                 return $query->where('towing_id', $request->show);

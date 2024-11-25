@@ -28,6 +28,7 @@ class UpdateConfirmDriverOrderRequest extends FormRequest
     {
         $this->merge([
             'status' => 'done',
+            'finished_at' => now(),
         ]);
     }
 }
