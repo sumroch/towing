@@ -27,7 +27,10 @@ class OrderRepository
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
             ->join('users', 'users.id', '=', 'orders.driver_id')
-            ->where('status', 'done')
+            ->where(function ($query) {
+                $query->where('status', 'done')
+                    ->where('orders.finished_at', '>=', now()->addDays(-10));
+            })
             ->orderBy('orders.created_at', 'desc');
 
         return DataTables::of($data)->toJson();
