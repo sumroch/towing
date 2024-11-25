@@ -330,7 +330,10 @@ class OrderRepository
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
             ->join('users', 'users.id', '=', 'orders.driver_id')
-            ->where('status', 'done')
+            ->where(function ($query) {
+                $query->where('status', 'done')
+                    ->where('orders.updated_at', '>=', now()->addDays(-10));
+            })
             ->when(
                 $request->user()->hasRole('manager'),
                 function ($query) use ($request) {
