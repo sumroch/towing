@@ -6,7 +6,6 @@ use App\Domain\MasterData\Entities\Group;
 use App\Domain\Order\Entities\Order;
 use App\Traits\RepositoryTrait;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 
 class OrderRepository

@@ -7,7 +7,6 @@ use App\Domain\Order\Validators\OrderRequest;
 use App\Domain\Order\Validators\UpdateConfirmDriverOrderRequest;
 use App\Domain\Order\Validators\UpdateConfirmOrderRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
