@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('car_name', 64);
             $table->string('number_plate', 15);
+            $table->string('number_body', 25)->nullable();
             $table->string('car_color', 15);
             $table->string('car_category', 15);
             $table->string('car_condition', 15)->nullable();
             $table->string('memo', 191)->nullable();
             $table->date('date');
-            $table->string('time', 15)->nullable();
-            $table->string('pic_1', 15);
-            $table->string('pic_2', 15);
+            $table->string('pic_1', 15)->nullable();
+            $table->string('pic_2', 15)->nullable();
             $table->date('date_confirm')->nullable();
             $table->string('time_confirm', 15)->nullable();
             $table->string('status', 15)->nullable();

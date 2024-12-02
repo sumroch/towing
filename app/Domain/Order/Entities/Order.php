@@ -18,12 +18,12 @@ class Order extends Model
     protected $fillable = [
         "car_name",
         "number_plate",
+        "number_body",
         "car_color",
         "car_category",
         "car_condition",
         "memo",
         "date",
-        "time",
         "pic_1",
         "pic_2",
         "date_confirm",

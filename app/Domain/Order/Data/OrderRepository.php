@@ -21,7 +21,7 @@ class OrderRepository
 
     public function index()
     {
-        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'car_color', 'car_category', 'car_condition', 'memo', 'date', 'time', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'towing.name as towing', 'driver_id', 'users.username as driver_name', 'status')
+        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'number_body', 'car_color', 'car_category', 'memo', 'date', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'towing.name as towing', 'driver_id', 'users.username as driver_name', 'status')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
@@ -37,7 +37,7 @@ class OrderRepository
 
     public function indexProgress()
     {
-        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'car_color', 'car_category', 'car_condition', 'memo', 'date', 'time', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'towing.name as towing', 'driver_id', 'users.username as driver_name', 'status')
+        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'number_body', 'car_color', 'car_category', 'memo', 'date', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'towing.name as towing', 'driver_id', 'users.username as driver_name', 'status')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
@@ -64,9 +64,9 @@ class OrderRepository
             'orders.id',
             'car_name',
             'number_plate',
+            'number_body',
             'car_color',
             'car_category',
-            'car_condition',
             'memo',
             "status",
             'pic_2',
@@ -106,13 +106,11 @@ class OrderRepository
             'orders.id',
             'car_name',
             'number_plate',
+            'number_body',
             'car_color',
             'car_category',
-            'car_condition',
             'memo',
             'date',
-            'time',
-            DB::raw('CONCAT(date, " ", time) as date_order'),
             'pic_1',
             'pic_2',
             'store_origin.name as store_origin',
@@ -121,14 +119,14 @@ class OrderRepository
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
-            ->where('store_origin', $store_id)
-            ->where(function ($query) {
-                $query->where('status', 'done')
-                    ->where('orders.finished_at', '>=', now()->addDays(-3));
-            })
-            ->orWhere('status', 'unready')
-            ->orWhere('status', 'ready')
-            ->orWhere('status', 'confirmed')
+            ->where('orders.store_origin', $store_id)
+            // ->where(function ($query) {
+            //     $query->where('status', 'done')
+            //         ->where('orders.finished_at', '>=', now()->addDays(-3));
+            // })
+            // ->orWhere('status', 'unready')
+            // ->orWhere('status', 'ready')
+            // ->orWhere('status', 'confirmed')
             ->orderBy('orders.created_at', 'desc')
             ->orderBy('orders.updated_at', 'asc')
             ->get();
@@ -179,12 +177,11 @@ class OrderRepository
             'orders.id',
             'car_name',
             'number_plate',
+            'number_body',
             'car_color',
             'car_category',
-            'car_condition',
             'memo',
             'date',
-            'time',
             'pic_1',
             'pic_2',
             'store_origin',
@@ -212,12 +209,11 @@ class OrderRepository
             'orders.id',
             'car_name',
             'number_plate',
+            'number_body',
             'car_color',
             'car_category',
-            'car_condition',
             'memo',
             'date',
-            'time',
             'pic_1',
             'pic_2',
             'store_origin',
@@ -238,12 +234,11 @@ class OrderRepository
             'orders.id',
             'car_name',
             'number_plate',
+            'number_body',
             'car_color',
             'car_category',
-            'car_condition',
             'memo',
             'date',
-            'time',
             'pic_1',
             'pic_2',
             'store_origin.name as store_origin',
@@ -284,12 +279,11 @@ class OrderRepository
             'orders.id',
             'car_name',
             'number_plate',
+            'number_body',
             'car_color',
             'car_category',
-            'car_condition',
             'memo',
             'date',
-            'time',
             'pic_1',
             'pic_2',
             'store_origin',
@@ -310,13 +304,11 @@ class OrderRepository
             'orders.id',
             'car_name',
             'number_plate',
+            'number_body',
             'car_color',
             'car_category',
-            'car_condition',
             'memo',
             'date',
-            'time',
-            DB::raw('CONCAT(date, " ", time) as date'),
             'pic_1',
             'pic_2',
             'store_origin.name as store_origin',
@@ -367,13 +359,11 @@ class OrderRepository
             'orders.id',
             'car_name',
             'number_plate',
+            'number_body',
             'car_color',
             'car_category',
-            'car_condition',
             'memo',
             'date',
-            'time',
-            DB::raw('CONCAT(date, " ", time) as date'),
             'pic_1',
             'pic_2',
             'store_origin.name as store_origin',

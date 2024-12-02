@@ -11,14 +11,14 @@ class UpdateConfirmDriverOrderRequest extends FormRequest
         return [
             'car_name'      => 'required|string|max:64',
             'number_plate'  => 'required|string|max:15',
+            'number_body'   => 'required|string|max:25',
             'car_color'     => 'required|string|max:15',
             'car_category'  => 'required|string|max:15',
             'car_condition' => 'nullable|string|max:15',
             'memo'          => 'required|string|max:191',
             'date'          => 'required|date',
-            'time'          => 'nullable|string',
-            'pic_1'         => 'required|string|max:15',
-            'pic_2'         => 'required|string|max:15',
+            'pic_1'         => 'nullable|string|max:15',
+            'pic_2'         => 'nullable|string|max:15',
             'store_origin'  => 'required|integer|exists:stores,id',
             'store_destination' => 'required|integer|exists:stores,id',
         ];
