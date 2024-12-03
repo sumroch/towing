@@ -120,13 +120,13 @@ class OrderRepository
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->where('orders.store_origin', $store_id)
-            // ->where(function ($query) {
-            //     $query->where('status', 'done')
-            //         ->where('orders.finished_at', '>=', now()->addDays(-3));
-            // })
-            // ->orWhere('status', 'unready')
-            // ->orWhere('status', 'ready')
-            // ->orWhere('status', 'confirmed')
+            ->where(function ($query) {
+                $query->where('status', 'done')
+                    ->where('orders.finished_at', '>=', now()->addDays(-3));;
+                $query->orWhere('status', 'unready')
+                    ->orWhere('status', 'ready')
+                    ->orWhere('status', 'confirmed');
+            })
             ->orderBy('orders.created_at', 'desc')
             ->orderBy('orders.updated_at', 'asc')
             ->get();
