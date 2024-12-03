@@ -121,9 +121,11 @@ class OrderRepository
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->where('orders.store_origin', $store_id)
             ->where(function ($query) {
-                $query->where('status', 'done')
-                    ->where('orders.finished_at', '>=', now()->addDays(-3));;
-                $query->orWhere('status', 'unready')
+                $query->where(function ($query) {
+                    $query->where('status', 'done')
+                        ->where('orders.finished_at', '>=', now()->addDays(-3));
+                })
+                    ->orWhere('status', 'unready')
                     ->orWhere('status', 'ready')
                     ->orWhere('status', 'confirmed');
             })
