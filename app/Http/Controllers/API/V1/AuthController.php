@@ -29,6 +29,7 @@ class AuthController extends Controller
                     'id'        => $request->user()->id,
                     'username'  => $request->user()->username,
                     'store_id'  => $request->user()->store_id,
+                    'store_name'  => $request->user()->store->name ?? 'null',
                     'role'      => $request->user()->roles[0]->name,
                 ],
             ]);

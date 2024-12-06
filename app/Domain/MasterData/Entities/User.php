@@ -50,7 +50,7 @@ class User extends Authenticatable
 
     protected $guard_name = 'web';
 
-    public function stores()
+    public function store()
     {
         return $this->belongsTo(Store::class);
     }
