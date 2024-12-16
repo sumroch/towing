@@ -50,17 +50,16 @@ class OrderRepository
 
     public function home($request)
     {
-        $group = $this->modelGroup::select('id', 'name')->with(['store' => function ($query) {
+        return $this->modelGroup::select('id', 'name')->with(['store' => function ($query) {
             $query->withCount(['order as total_order' => function ($query) {
                 $query->where('status', 'ready');
             }]);
         }])->withCount('store as total_store')->get();
-        return $group;
     }
 
     public function calender($request)
     {
-        $store = $this->model::select(
+        return $this->model::select(
             'orders.id',
             'car_name',
             'number_plate',
@@ -83,22 +82,11 @@ class OrderRepository
             ->join('towing', 'towing.id', '=', 'orders.towing_id')
             ->join('users', 'users.id', '=', 'orders.driver_id')
             ->where('status', 'confirmed')
-            ->when($request->show == '1', function ($query) use ($request) {
-                return $query->where('towing_id', $request->show);
-            })
-            ->when($request->show == '2', function ($query) use ($request) {
-                return $query->where('towing_id', $request->show);
-            })
-            ->when($request->show == '3', function ($query) use ($request) {
-                return $query->where('towing_id', $request->show);
-            })
-            ->when($request->show == '4', function ($query) use ($request) {
+            ->when($request->show, function ($query) use ($request) {
                 return $query->where('towing_id', $request->show);
             })
             ->orderBy('orders.created_at', 'desc')
             ->get();
-
-        return $store;
     }
     public function orderList($store_id)
     {
@@ -123,7 +111,7 @@ class OrderRepository
             ->where(function ($query) {
                 $query->where(function ($query) {
                     $query->where('status', 'done')
-                        ->where('orders.finished_at', '>=', now()->addDays(-3));
+                        ->where('orders.finished_at', '>=', now()->addDays(-2));
                 })
                     ->orWhere('status', 'unready')
                     ->orWhere('status', 'ready')
@@ -167,7 +155,6 @@ class OrderRepository
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
-            // ->where('is_confirm', '0')
             ->where('store_origin', $request->store_id)
             ->orderBy('orders.created_at', 'desc')
             ->get();
@@ -259,16 +246,7 @@ class OrderRepository
             ->join('users', 'users.id', '=', 'orders.driver_id')
             ->where('status', 'confirmed')
             ->when($request->user()->id, fn($x) => $x->where('driver_id', $request->user()->id))
-            ->when($request->show == '1', function ($query) use ($request) {
-                return $query->where('towing_id', $request->show);
-            })
-            ->when($request->show == '2', function ($query) use ($request) {
-                return $query->where('towing_id', $request->show);
-            })
-            ->when($request->show == '3', function ($query) use ($request) {
-                return $query->where('towing_id', $request->show);
-            })
-            ->when($request->show == '4', function ($query) use ($request) {
+            ->when($request->show, function ($query) use ($request) {
                 return $query->where('towing_id', $request->show);
             })
             ->orderBy('orders.updated_at', 'desc')
@@ -315,12 +293,13 @@ class OrderRepository
             'pic_2',
             'store_origin.name as store_origin',
             'store_destination.name as store_destination',
-            "date_confirm",
-            "time_confirm",
-            "towing.name as towing",
-            "status",
-            "driver_id",
-            "users.username as driver_name",
+            'date_confirm',
+            'time_confirm',
+            'towing.name as towing',
+            'status',
+            'driver_id',
+            'users.username as driver_name',
+
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
@@ -339,17 +318,8 @@ class OrderRepository
                 },
                 fn($query) => $query->where('orders.store_origin', $request->user()->store_id)
             )
-            ->when($request->show == 'towing1', function ($query) use ($request) {
-                return $query->where('towing', $request->show);
-            })
-            ->when($request->show == 'towing2', function ($query) use ($request) {
-                return $query->where('towing', $request->show);
-            })
-            ->when($request->show == 'towing3', function ($query) use ($request) {
-                return $query->where('towing', $request->show);
-            })
-            ->when($request->show == 'others', function ($query) use ($request) {
-                return $query->where('towing', $request->show);
+            ->when($request->show, function ($query) use ($request) {
+                return $query->where('towing_id', $request->show);
             })
             ->orderBy('orders.updated_at', 'desc')
             ->get();
