@@ -14,7 +14,7 @@ class GroupSeeder extends Seeder
     {
         Group::insert([
             ['name' => 'コバック'],
-            ['name' => 'Dealer'],
+            ['name' => '車販'],
             ['name' => 'モドーリ'],
             ['name' => 'SS'],
         ]);
