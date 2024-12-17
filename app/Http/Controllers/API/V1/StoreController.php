@@ -18,7 +18,7 @@ class StoreController extends Controller
 
     public function dataStore()
     {
-        return $this->apiResponseSuccess($this->repository->callDataStore());
+        return $this->apiResponseSuccess($this->repository->list());
     }
 
     public function index(Request $request)

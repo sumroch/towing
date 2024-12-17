@@ -17,7 +17,7 @@ class GroupController extends Controller
 
     public function dataGroup()
     {
-        return $this->apiResponseSuccess($this->repository->callDataGroup());
+        return $this->apiResponseSuccess($this->repository->list());
     }
     public function index()
     {

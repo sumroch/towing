@@ -18,7 +18,7 @@ class TowingController extends Controller
 
     public function dataTowing()
     {
-        return $this->apiResponseSuccess($this->repository->callDataTowing());
+        return $this->apiResponseSuccess($this->repository->list());
     }
 
     public function index(Request $request)

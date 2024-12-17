@@ -4,7 +4,6 @@ namespace App\Domain\MasterData\Data;
 
 use App\Domain\MasterData\Entities\User;
 use App\Traits\RepositoryTrait;
-use Dflydev\DotAccessData\Data;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 
@@ -21,23 +20,19 @@ class UserRepository
 
     public function role($request)
     {
-        $data = $this->modelRole->when($request->user()->hasRole('manager'), function ($query) {
+        return $this->modelRole->when($request->user()->hasRole('manager'), function ($query) {
             $query->where('name', '!=', 'manager');
         })
             ->when($request->user()->hasRole('store'), function ($query) {
                 $query->whereNotIn('name', ['manager', 'store']);
             })
             ->pluck('name');
-
-        return $data;
     }
     public function call()
     {
-        $data = $this->model::whereHas('roles', function ($query) {
+        return $this->model::whereHas('roles', function ($query) {
             $query->where('name', 'driver');
         })->select('id', 'username')->pluck('username', 'id');
-
-        return $data;
     }
 
     public function index()

@@ -16,13 +16,6 @@ class StoreRepository
         $this->model = $model;
     }
 
-    public function callDataStore()
-    {
-        $data   = $this->model->select('id', 'name')->pluck('name', 'id');
-
-        return  $data;
-    }
-
     public function index()
     {
         $data = $this->model->select('stores.id', 'stores.name', 'groups.name as group_name')
