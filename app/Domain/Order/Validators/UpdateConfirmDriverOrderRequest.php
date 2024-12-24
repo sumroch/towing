@@ -15,7 +15,7 @@ class UpdateConfirmDriverOrderRequest extends FormRequest
             'car_color'     => 'required|string|max:15',
             'car_category'  => 'required|string|max:15',
             'car_condition' => 'nullable|string|max:15',
-            'memo'          => 'required|string|max:191',
+            'memo'          => 'nullable|string|max:191',
             'date'          => 'required|date',
             'pic_1'         => 'nullable|string|max:15',
             'pic_2'         => 'nullable|string|max:15',

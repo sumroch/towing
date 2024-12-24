@@ -131,6 +131,7 @@ class OrderRepository
         $store = $name_store->store;
         $store_id = $store_id;
 
+        // return compact('data', 'store', 'store_id');
         return response()->json(['status' => 200, 'message' => "OKE", 'data' => $data, 'store' => $store, 'store_id' => $store_id]);
     }
 
