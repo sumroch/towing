@@ -2,8 +2,6 @@
 
 namespace App\Domain\MasterData\Entities;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\Domain\Order\Entities\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
