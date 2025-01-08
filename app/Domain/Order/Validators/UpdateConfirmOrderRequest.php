@@ -10,8 +10,8 @@ class UpdateConfirmOrderRequest extends FormRequest
     {
         return [
             'car_name'      => 'required|string|max:64',
-            'number_plate'  => 'required|string|max:15',
-            'number_body'   => 'required|string|max:25',
+            'number_plate'  => 'nullable|string|max:15',
+            'number_body'   => 'nullable|string|max:25',
             'car_color'     => 'required|string|max:15',
             'car_category'  => 'required|string|max:15',
             'car_condition' => 'nullable|string|max:15',
