@@ -27,14 +27,28 @@ class UserSeeder extends Seeder
         $admin->assignRole('store');
 
         $admin = User::create([
-            'username'  => 'asep',
+            'username'  => '中村',
             'password'  => bcrypt('12345'),
             'store_id'  => NULL
         ]);
         $admin->assignRole('driver');
 
         $admin = User::create([
-            'username'  => 'dani',
+            'username'  => '森',
+            'password'  => bcrypt('12345'),
+            'store_id'  => NULL
+        ]);
+        $admin->assignRole('driver');
+
+        $admin = User::create([
+            'username'  => '小野沢',
+            'password'  => bcrypt('12345'),
+            'store_id'  => NULL
+        ]);
+        $admin->assignRole('driver');
+
+        $admin = User::create([
+            'username'  => '佐藤',
             'password'  => bcrypt('12345'),
             'store_id'  => NULL
         ]);
