@@ -13,9 +13,9 @@ class RoleSeeder extends Seeder
     public function run()
     {
         Role::insert([
-            ['name' => 'manager', 'guard_name' => 'web'],
-            ['name' => 'store', 'guard_name' => 'web'],
-            ['name' => 'driver', 'guard_name' => 'web'],
+            ['name' => 'マネジャー', 'guard_name' => 'web'],
+            ['name' => '店舗', 'guard_name' => 'web'],
+            ['name' => '回送者', 'guard_name' => 'web'],
         ]);
     }
 }
