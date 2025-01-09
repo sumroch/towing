@@ -20,18 +20,18 @@ class UserRepository
 
     public function role($request)
     {
-        return $this->modelRole->when($request->user()->hasRole('manager'), function ($query) {
-            $query->where('name', '!=', 'manager');
+        return $this->modelRole->when($request->user()->hasRole('マネジャー'), function ($query) {
+            $query->where('name', '!=', 'マネジャー');
         })
             ->when($request->user()->hasRole('store'), function ($query) {
-                $query->whereNotIn('name', ['manager', 'store']);
+                $query->whereNotIn('name', ['マネジャー', '店舗']);
             })
             ->pluck('name');
     }
     public function call()
     {
         return $this->model::whereHas('roles', function ($query) {
-            $query->where('name', 'driver');
+            $query->where('name', '回送者');
         })->select('id', 'username')->pluck('username', 'id');
     }
 
