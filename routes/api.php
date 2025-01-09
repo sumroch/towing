@@ -26,12 +26,12 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/store/{store_id}', [HomeController::class, 'orderList']);
     Route::get('/home-store', [HomeController::class, 'orderListStore']);
 
-    Route::middleware(['role:manager|store|driver'])->group(function () {
+    Route::middleware(['role:マネジャー|店舗|回送者'])->group(function () {
         Route::get('/order/{order_id}', [OrderController::class, 'showOrderManager']);
         Route::put('/order-confirm/{order_id}', [OrderController::class, 'updateConfirm']);
     });
 
-    Route::middleware(['role:manager|store'])->group(function () {
+    Route::middleware(['role:マネジャー|店舗'])->group(function () {
         Route::get('/edit-store/{order_id}', [OrderController::class, 'showOrderStore']);
         Route::post('/order', [OrderController::class, 'store']);
         Route::put('/order-store/{order_id}', [OrderController::class, 'update']);
@@ -40,7 +40,7 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
         Route::get('/store-history', [HomeController::class, 'storeHistory']);
     });
 
-    Route::middleware(['role:driver'])->group(function () {
+    Route::middleware(['role:回送者'])->group(function () {
         Route::get('/driver-order-list', [HomeController::class, 'driverOrderList']);
         Route::get('/driver-order/{oder_id}', [HomeController::class, 'showDriverOrder']);
         Route::put('/driver-order/{order_id}', [OrderController::class, 'updateOrderDriver']);
@@ -48,7 +48,7 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
     });
 });
 
-Route::prefix('admin')->middleware(['auth:sanctum', 'role:manager|store'])->group(function () {
+Route::prefix('admin')->middleware(['auth:sanctum', 'role:マネジャー|店舗'])->group(function () {
     Route::get('/data-role', [UserController::class, 'dataRole']);
 
     Route::get('/order-progress', [OrderController::class, 'indexProgress']);

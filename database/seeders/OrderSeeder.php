@@ -115,7 +115,7 @@ class OrderSeeder extends Seeder
                 'finished_at'     => NULL
             ],
 
-            //ready
+            //     //ready
             [
                 'car_name'      => 'Avanza',
                 'number_plate'  => '熊谷 580 わ 1621',
@@ -378,6 +378,7 @@ class OrderSeeder extends Seeder
                 'store_destination'    => '2',
                 'finished_at'     => NULL
             ],
+
             //done
             [
                 'car_name'      => 'Hyundai',
@@ -601,6 +602,7 @@ class OrderSeeder extends Seeder
                 'store_destination'    => '2',
                 'finished_at'     => NULL
             ],
+
             //ready 2025
             [
                 'car_name'      => 'Baic',
@@ -702,6 +704,7 @@ class OrderSeeder extends Seeder
                 'store_destination'    => '2',
                 'finished_at'     => NULL
             ],
+
             //confirm 2025
             [
                 'car_name'      => 'Pajero',
