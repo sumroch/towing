@@ -23,7 +23,7 @@ class UserRepository
         return $this->modelRole->when($request->user()->hasRole('マネジャー'), function ($query) {
             $query->where('name', '!=', 'マネジャー');
         })
-            ->when($request->user()->hasRole('store'), function ($query) {
+            ->when($request->user()->hasRole('店舗'), function ($query) {
                 $query->whereNotIn('name', ['マネジャー', '店舗']);
             })
             ->pluck('name');
