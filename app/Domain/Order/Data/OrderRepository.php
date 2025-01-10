@@ -311,7 +311,7 @@ class OrderRepository
                     ->where('orders.finished_at', '>=', now()->addDays(-10));
             })
             ->when(
-                $request->user()->hasRole('manager'),
+                $request->user()->hasRole('マネジャー'),
                 function ($query) use ($request) {
                     if ($request->store_id) {
                         $query->where('orders.store_origin', $request->store_id);
