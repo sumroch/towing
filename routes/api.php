@@ -40,7 +40,7 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
         Route::get('/store-history', [HomeController::class, 'storeHistory']);
     });
 
-    Route::middleware(['role:回送者'])->group(function () {
+    Route::middleware(['role:マネジャー|回送者'])->group(function () {
         Route::get('/driver-order-list', [HomeController::class, 'driverOrderList']);
         Route::get('/driver-order/{oder_id}', [HomeController::class, 'showDriverOrder']);
         Route::put('/driver-order/{order_id}', [OrderController::class, 'updateOrderDriver']);
