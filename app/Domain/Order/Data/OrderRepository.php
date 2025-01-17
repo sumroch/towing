@@ -82,6 +82,9 @@ class OrderRepository
             // ->when($request->show, function ($query) use ($request) {
             //     return $query->where('towing_id', $request->show);
             // })
+            ->when($request->show == 'asc', function ($query) {
+                return $query->orderBy('orders.created_at', 'asc');
+            })
             ->orderBy('orders.created_at', 'desc')
             ->get();
     }
