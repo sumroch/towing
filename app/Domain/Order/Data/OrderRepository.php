@@ -41,7 +41,7 @@ class OrderRepository
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             // ->join('towing', 'towing.id', '=', 'orders.towing_id')
-            ->join('users', 'users.id', '=', 'orders.driver_id')
+            // ->join('users', 'users.id', '=', 'orders.driver_id')
             ->where('status', 'confirmed')
             ->orderBy('orders.created_at', 'desc');
 
