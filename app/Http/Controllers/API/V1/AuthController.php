@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Domain\MasterData\Entities\UserDevice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -20,6 +21,16 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $token = $request->user()->createToken('PAT')->plainTextToken;
+
+            if ($request->filled('fcmToken')) {
+                UserDevice::create([
+                    'user_id' => $request->user()->id,
+                    'fcm_token' => $request->fcmToken,
+                    'device_uid' => $request->deviceUid ?? null,
+                    'is_signed_id' => 1,
+                    'signed_in_at' => now(),
+                ]);
+            }
 
             return response()->json([
                 'status' => 'success',

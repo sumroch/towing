@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 
-    'allowed_origins' => ['http://localhost:3000', 'http://localhost:3001'],
+    'allowed_origins' => ['http://localhost:3000', 'http://localhost:3001', '192.168.1.*', 'http://192.168.1.*'],
 
     'allowed_origins_patterns' => [],
 
