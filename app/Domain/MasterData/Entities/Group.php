@@ -2,6 +2,7 @@
 
 namespace App\Domain\MasterData\Entities;
 
+use Database\Factories\GroupFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +15,11 @@ class Group extends Model
     protected $fillable = [
         "name"
     ];
+
+    public static function newFactory()
+    {
+        return GroupFactory::new();
+    }
 
     public function store()
     {
