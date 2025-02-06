@@ -3,6 +3,7 @@
 namespace App\Domain\MasterData\Entities;
 
 use App\Domain\Order\Entities\Order;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -48,6 +49,10 @@ class User extends Authenticatable
 
     protected $guard_name = 'web';
 
+    public static function newFactory()
+    {
+        return UserFactory::new();
+    }
     public function store()
     {
         return $this->belongsTo(Store::class);

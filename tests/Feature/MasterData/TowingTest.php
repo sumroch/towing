@@ -49,6 +49,17 @@ class TowingTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_error_when_not_fill_field_update()
+    {
+        $towing = Towing::factory()->create([
+            'name' => 'towing old',
+        ]);
+
+        $response = $this->putJson('/api/admin/towing/' . $towing->id, []);
+
+        $response->assertStatus(422);
+    }
+
     public function test_delete_data()
     {
         $towing = Towing::factory()->create([

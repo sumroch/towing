@@ -48,6 +48,17 @@ class GroupTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_error_when_not_fill_field_update()
+    {
+        $group = Group::factory()->create([
+            'name' => 'group old',
+        ]);
+
+        $response = $this->putJson('/api/admin/group/' . $group->id, []);
+
+        $response->assertStatus(422);
+    }
+
     public function test_delete_data()
     {
         $group = Group::factory()->create([

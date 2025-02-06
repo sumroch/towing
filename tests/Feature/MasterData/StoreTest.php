@@ -56,6 +56,19 @@ class StoreTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_error_when_not_fill_field_update()
+    {
+        $group = Group::factory()->create();
+        $store = Store::factory()->create([
+            'name' => 'store old',
+            'group_id' => $group->id,
+        ]);
+
+        $response = $this->putJson('/api/admin/store/' . $store->id, []);
+
+        $response->assertStatus(422);
+    }
+
     public function test_delete_data()
     {
         $group = Group::factory()->create();
