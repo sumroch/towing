@@ -2,10 +2,6 @@
 
 namespace Tests\Feature\Public;
 
-use App\Domain\MasterData\Entities\Store;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class OrderTest extends TestCase

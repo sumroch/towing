@@ -15,7 +15,6 @@ class HomeTest extends TestCase
         $this->assertAuthenticated();
         return $response;
     }
-
     public function test_get_data()
     {
         $this->loginUser();
@@ -23,7 +22,6 @@ class HomeTest extends TestCase
 
         $response->assertOk();
     }
-
     public function test_get_data_calender()
     {
         $this->loginUser();
@@ -31,7 +29,6 @@ class HomeTest extends TestCase
 
         $response->assertOk();
     }
-
     public function test_get_data_order_list()
     {
         $this->loginUser();

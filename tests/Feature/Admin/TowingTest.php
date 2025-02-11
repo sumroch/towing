@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Domain\MasterData\Entities\Towing;
 use Tests\TestCase;
 
 class TowingTest extends TestCase
