@@ -5,11 +5,9 @@ namespace App\Domain\Order\Entities;
 use App\Domain\MasterData\Entities\Store;
 use App\Domain\MasterData\Entities\Towing;
 use App\Domain\MasterData\Entities\User;
-use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Log;
 
 class Order extends Model
 {
@@ -36,11 +34,6 @@ class Order extends Model
         "store_destination",
         "finished_at",
     ];
-
-    public static function newFactory()
-    {
-        return OrderFactory::new();
-    }
 
     public function towings()
     {
