@@ -113,12 +113,10 @@ class OrderRepository
                     $query->where('status', 'done')
                         ->where('orders.finished_at', '>=', now()->addDays(-2));
                 })
-                    ->orWhere('status', 'unready')
-                    ->orWhere('status', 'ready')
-                    ->orWhere('status', 'confirmed');
+                    ->orWhereIn('status', ['unready', 'ready', 'confirmed']);
             })
-            ->orderBy('orders.created_at', 'desc')
-            ->orderBy('orders.updated_at', 'asc')
+            ->orderByRaw("CASE WHEN status = 'done' THEN orders.updated_at END DESC")
+            ->orderByRaw("CASE WHEN status != 'done' THEN orders.created_at END ASC")
             ->get();
 
         $name_store = $this->model::select(
