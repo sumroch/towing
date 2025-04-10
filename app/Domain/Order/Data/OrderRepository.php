@@ -51,9 +51,14 @@ class OrderRepository
     public function home($request)
     {
         return $this->modelGroup::select('id', 'name')->with(['store' => function ($query) {
-            $query->withCount(['order as total_order' => function ($query) {
-                $query->where('status', 'ready');
-            }]);
+            $query->withCount([
+                'order as total_order' => function ($query) {
+                    $query->where('status', 'ready');
+                },
+                'order as total_unready' => function ($query) {
+                    $query->where('status', 'unready');
+                }
+            ]);
         }])->withCount('store as total_store')->get();
     }
 
