@@ -28,9 +28,11 @@ class Order extends Model
         "date_confirm",
         "time_confirm",
         "status",
+        "user_id",
         "towing_id",
         "driver_id",
         "store_origin",
+        "other",
         "store_destination",
         "finished_at",
     ];

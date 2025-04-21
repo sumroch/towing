@@ -3,6 +3,7 @@
 namespace App\Domain\Order\Data;
 
 use App\Domain\MasterData\Entities\Group;
+use App\Domain\MasterData\Entities\User;
 use App\Domain\Order\Entities\Order;
 use App\Traits\RepositoryTrait;
 use Illuminate\Support\Facades\DB;
@@ -21,9 +22,15 @@ class OrderRepository
 
     public function index()
     {
-        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'number_body', 'car_color', 'car_category', 'memo', 'date', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'status')
+        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'number_body', 'car_color', 'car_category', 'memo', 'date', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'other', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'status', 'roles.name as created')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->leftJoin('users', 'users.id', '=', 'orders.user_id')
+            ->leftJoin('model_has_roles', function ($join) {
+                $join->on('model_has_roles.model_id', '=', 'users.id')
+                    ->where('model_has_roles.model_type', '=', \App\Domain\MasterData\Entities\User::class);
+            })
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
             // ->join('towing', 'towing.id', '=', 'orders.towing_id')
             // ->join('users', 'users.id', '=', 'orders.driver_id')
             ->where(function ($query) {
@@ -37,9 +44,15 @@ class OrderRepository
 
     public function indexProgress()
     {
-        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'number_body', 'car_color', 'car_category', 'memo', 'date', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'status')
+        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'number_body', 'car_color', 'car_category', 'memo', 'date', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'other', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'status', 'roles.name as created')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->leftJoin('users', 'users.id', '=', 'orders.user_id')
+            ->leftJoin('model_has_roles', function ($join) {
+                $join->on('model_has_roles.model_id', '=', 'users.id')
+                    ->where('model_has_roles.model_type', '=', \App\Domain\MasterData\Entities\User::class);
+            })
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
             // ->join('towing', 'towing.id', '=', 'orders.towing_id')
             // ->join('users', 'users.id', '=', 'orders.driver_id')
             ->where('status', 'confirmed')
@@ -76,13 +89,21 @@ class OrderRepository
             'pic_2',
             'pic_1',
             'store_origin.name as store_origin',
+            'other',
             'store_destination.name as store_destination',
+            'roles.name as user_role',
             DB::raw("DATE_FORMAT(date_confirm,'%Y-%m-%d') as date_confirm")
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             // ->join('towing', 'towing.id', '=', 'orders.towing_id')
             // ->join('users', 'users.id', '=', 'orders.driver_id')
+            ->leftJoin('users', 'users.id', '=', 'orders.user_id')
+            ->leftJoin('model_has_roles', function ($join) {
+                $join->on('model_has_roles.model_id', '=', 'users.id')
+                    ->where('model_has_roles.model_type', '=', \App\Domain\MasterData\Entities\User::class);
+            })
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->where('status', 'confirmed')
             // ->when($request->show, function ($query) use ($request) {
             //     return $query->where('towing_id', $request->show);
@@ -107,11 +128,19 @@ class OrderRepository
             'pic_1',
             'pic_2',
             'store_origin.name as store_origin',
+            'other',
             'store_destination.name as store_destination',
             'status',
+            'roles.name as user_role'
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->leftJoin('users', 'users.id', '=', 'orders.user_id')
+            ->leftJoin('model_has_roles', function ($join) {
+                $join->on('model_has_roles.model_id', '=', 'users.id')
+                    ->where('model_has_roles.model_type', '=', \App\Domain\MasterData\Entities\User::class);
+            })
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->where('orders.store_origin', $store_id)
             ->where(function ($query) {
                 $query->where(function ($query) {
@@ -178,13 +207,21 @@ class OrderRepository
             'pic_1',
             'pic_2',
             'store_origin',
+            'other',
             'store_destination',
             'date_confirm',
             'time_confirm',
             'status',
+            'roles.name as user_role'
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
+            ->leftJoin('users', 'users.id', '=', 'orders.user_id')
+            ->leftJoin('model_has_roles', function ($join) {
+                $join->on('model_has_roles.model_id', '=', 'users.id')
+                    ->where('model_has_roles.model_type', '=', \App\Domain\MasterData\Entities\User::class);
+            })
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->where('orders.id', $order_id)
             ->where(function ($query) {
                 $query->where('status', 'unready')
@@ -208,11 +245,19 @@ class OrderRepository
             'pic_1',
             'pic_2',
             'store_origin',
+            'other',
             'store_destination',
             'date_confirm',
             'time_confirm',
             'status',
+            'roles.name as user_role'
         )
+            ->leftJoin('users', 'users.id', '=', 'orders.user_id')
+            ->leftJoin('model_has_roles', function ($join) {
+                $join->on('model_has_roles.model_id', '=', 'users.id')
+                    ->where('model_has_roles.model_type', '=', \App\Domain\MasterData\Entities\User::class);
+            })
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->where('orders.id', $order_id)
             ->first();
     }
@@ -286,16 +331,24 @@ class OrderRepository
             'pic_1',
             'pic_2',
             'store_origin.name as store_origin',
+            'other',
             'store_destination.name as store_destination',
             'date_confirm',
             'time_confirm',
             'status',
+            'roles.name as user_role'
 
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             // ->join('towing', 'towing.id', '=', 'orders.towing_id')
             // ->join('users', 'users.id', '=', 'orders.driver_id')
+            ->leftJoin('users', 'users.id', '=', 'orders.user_id')
+            ->leftJoin('model_has_roles', function ($join) {
+                $join->on('model_has_roles.model_id', '=', 'users.id')
+                    ->where('model_has_roles.model_type', '=', \App\Domain\MasterData\Entities\User::class);
+            })
+            ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
             ->where(function ($query) {
                 $query->where('status', 'done')
                     ->where('orders.finished_at', '>=', now()->addDays(-10));

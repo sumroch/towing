@@ -20,6 +20,7 @@ class OrderRequest extends FormRequest
             'pic_1'         => 'nullable|string|max:15',
             'pic_2'         => 'nullable|string|max:15',
             'store_origin'  => 'required|integer|exists:stores,id',
+            'other'         => 'nullable|string|max:64',
             'store_destination' => 'required|integer|exists:stores,id',
             'status'        => 'nullable|string|max:15',
         ];

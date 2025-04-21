@@ -29,7 +29,7 @@ class OrderController extends Controller
 
     public function store(OrderRequest $request)
     {
-        return $this->apiResponseSuccess($this->repository->store($request->only(
+        $data = $request->only([
             'car_name',
             'number_plate',
             'number_body',
@@ -41,9 +41,15 @@ class OrderController extends Controller
             'pic_1',
             'pic_2',
             'store_origin',
+            'other',
             'store_destination',
-            'status'
-        )));
+            'status',
+        ]);
+
+        //tambahkan user_id dari user yang sedang login
+        $data['user_id'] = auth()->id();
+
+        return $this->apiResponseSuccess($this->repository->store($data));
     }
 
     public function showOrderStore($order_id)
@@ -69,6 +75,7 @@ class OrderController extends Controller
             'pic_1',
             'pic_2',
             'store_origin',
+            'other',
             'store_destination',
             'status',
         ])));
@@ -87,6 +94,7 @@ class OrderController extends Controller
             'pic_1',
             'pic_2',
             'store_origin',
+            'other',
             'store_destination',
             'date_confirm',
             'time_confirm',
@@ -109,6 +117,7 @@ class OrderController extends Controller
             'pic_1',
             'pic_2',
             'store_origin',
+            'other',
             'store_destination',
             'date_confirm',
             'time_confirm',
@@ -132,6 +141,7 @@ class OrderController extends Controller
             'pic_1',
             'pic_2',
             'store_origin',
+            'other',
             'store_destination',
             'date_confirm',
             'time_confirm',
