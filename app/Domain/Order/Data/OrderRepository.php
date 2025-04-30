@@ -92,7 +92,7 @@ class OrderRepository
             'other',
             'store_destination.name as store_destination',
             'roles.name as user_role',
-            DB::raw("DATE_FORMAT(date_confirm,'%Y-%m-%d') as date_confirm")
+            DB::raw("DATE_FORMAT(date,'%Y-%m-%d') as date")
         )
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
@@ -104,7 +104,7 @@ class OrderRepository
                     ->where('model_has_roles.model_type', '=', \App\Domain\MasterData\Entities\User::class);
             })
             ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
-            ->where('status', 'confirmed')
+            ->where('status', 'ready')
             // ->when($request->show, function ($query) use ($request) {
             //     return $query->where('towing_id', $request->show);
             // })
