@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stores', function (Blueprint $table) {
+        Schema::create('car_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name', 64);
-            $table->foreignId('group_id')->nullable()->references('id')->on('groups')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stores');
+        Schema::dropIfExists('car_categories');
     }
 };

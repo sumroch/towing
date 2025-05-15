@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TowingSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(CarCategorySeeder::class);
+        $this->call(CarColorSeeder::class);
         $this->call(OrderSeeder::class);
     }
 }
