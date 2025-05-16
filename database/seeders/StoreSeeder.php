@@ -43,6 +43,15 @@ class StoreSeeder extends Seeder
             ['name' => '台坂SS', 'group_id' => '4'],
             ['name' => '笹井SS', 'group_id' => '4'],
             ['name' => 'イセヤ', 'group_id' => '4'],
+            ['name' => 'ホンダカーズ熊谷店', 'group_id' => '5'],
+            ['name' => 'ホンダカーズ埼玉広瀬店', 'group_id' => '5'],
+            ['name' => 'ホンダカーズ本庄南店', 'group_id' => '5'],
+            ['name' => 'ホンダカーズ深谷東店', 'group_id' => '5'],
+            ['name' => 'スズキアリーナ本庄早稲田店', 'group_id' => '5'],
+            ['name' => 'スズキアリーナ太田南矢島店', 'group_id' => '5'],
+            ['name' => 'スズキアリーナ深谷店', 'group_id' => '5'],
+            ['name' => '埼玉ダイハツ花園インター店', 'group_id' => '5'],
+            ['name' => '埼玉ダイハツ川越狭山店', 'group_id' => '5'],
         ]);
     }
 }
