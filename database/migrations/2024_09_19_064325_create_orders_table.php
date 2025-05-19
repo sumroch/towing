@@ -26,11 +26,9 @@ return new class extends Migration
             $table->date('date_confirm')->nullable();
             $table->string('time_confirm', 15)->nullable();
             $table->string('status', 15)->nullable();
-            $table->foreignId('user_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('towing_id')->nullable()->references('id')->on('towing')->onDelete('cascade');
             $table->foreignId('driver_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('store_origin')->nullable()->references('id')->on('stores')->onDelete('cascade');
-            $table->string('other', 64)->nullable();
             $table->foreignId('store_destination')->nullable()->references('id')->on('stores')->onDelete('cascade');
             $table->timestamp('finished_at')->nullable();
             $table->timestamps();
