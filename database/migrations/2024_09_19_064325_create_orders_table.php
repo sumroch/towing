@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('car_name', 64);
             $table->string('number_plate', 15);
             $table->string('number_body', 25);
-            $table->foreignId('car_color_id')->nullable()->references('id')->on('car_colors')->onDelete('cascade');
-            $table->foreignId('car_category_id')->nullable()->references('id')->on('car_categories')->onDelete('cascade');
+            $table->string('car_color', 15);
+            $table->string('car_category', 15);
             $table->string('car_condition', 15)->nullable();
             $table->string('memo', 191)->nullable();
             $table->date('date');
