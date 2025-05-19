@@ -17,6 +17,7 @@ class GroupSeeder extends Seeder
             ['name' => '車販'],
             ['name' => 'モドーリ'],
             ['name' => 'SS'],
+            ['name' => '他'],
         ]);
     }
 }

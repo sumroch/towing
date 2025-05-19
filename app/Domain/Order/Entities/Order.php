@@ -2,6 +2,8 @@
 
 namespace App\Domain\Order\Entities;
 
+use App\Domain\MasterData\Entities\CarCategory;
+use App\Domain\MasterData\Entities\CarColor;
 use App\Domain\MasterData\Entities\Store;
 use App\Domain\MasterData\Entities\Towing;
 use App\Domain\MasterData\Entities\User;
@@ -18,8 +20,8 @@ class Order extends Model
         "car_name",
         "number_plate",
         "number_body",
-        "car_color",
-        "car_category",
+        "car_color_id",
+        "car_category_id",
         "car_condition",
         "memo",
         "date",
@@ -48,5 +50,15 @@ class Order extends Model
     public function stores()
     {
         return $this->belongsTo(Store::class);
+    }
+
+    public function car_categories()
+    {
+        return $this->belongsTo(CarCategory::class);
+    }
+
+    public function car_colors()
+    {
+        return $this->belongsTo(CarColor::class);
     }
 }

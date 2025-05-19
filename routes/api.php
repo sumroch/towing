@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\V1\AuthController;
+use App\Http\Controllers\API\V1\CarCategoryController;
+use App\Http\Controllers\API\V1\CarColorController;
 use App\Http\Controllers\API\V1\GroupController;
 use App\Http\Controllers\API\V1\HomeController;
 use App\Http\Controllers\API\V1\NotificationController;
@@ -23,6 +25,8 @@ Route::prefix('public')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/data-towing', [TowingController::class, 'dataTowing']);
     Route::get('/data-driver', [UserController::class, 'dataDriver']);
     Route::get('/data-group', [GroupController::class, 'dataGroup']);
+    Route::get('/data-car-category', [CarCategoryController::class, 'dataCarCategory']);
+    Route::get('/data-car-color', [CarColorController::class, 'dataCarColor']);
 
     Route::get('/home', [HomeController::class, 'index']);
     Route::get('/calender', [HomeController::class, 'calender']);
@@ -62,4 +66,6 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'role:マネジャー|店舗
     Route::resource('/store', StoreController::class);
     Route::resource('/towing', TowingController::class);
     Route::resource('/group', GroupController::class);
+    Route::resource('car-category', CarCategoryController::class);
+    Route::resource('car-color', CarColorController::class);
 });

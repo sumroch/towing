@@ -22,7 +22,9 @@ class OrderRepository
 
     public function index()
     {
-        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'number_body', 'car_color', 'car_category', 'memo', 'date', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'other', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'status', 'roles.name as created')
+        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'number_body', 'car_colors.name as car_color', 'car_categories.name as car_category', 'memo', 'date', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'other', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'status', 'roles.name as created')
+            ->join('car_colors', 'car_colors.id', '=', 'orders.car_color_id')
+            ->join('car_categories', 'car_categories.id', '=', 'orders.car_category_id')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->leftJoin('users', 'users.id', '=', 'orders.user_id')
@@ -44,7 +46,9 @@ class OrderRepository
 
     public function indexProgress()
     {
-        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'number_body', 'car_color', 'car_category', 'memo', 'date', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'other', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'status', 'roles.name as created')
+        $data = $this->model->select('orders.id', 'car_name', 'number_plate', 'number_body', 'car_colors.name as car_color', 'car_categories.name as car_category', 'memo', 'date', 'pic_1', 'pic_2', 'store_origin.name as store_origin', 'other', 'store_destination.name as store_destination', 'date_confirm', 'time_confirm', 'status', 'roles.name as created')
+            ->join('car_colors', 'car_colors.id', '=', 'orders.car_color_id')
+            ->join('car_categories', 'car_categories.id', '=', 'orders.car_category_id')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->leftJoin('users', 'users.id', '=', 'orders.user_id')
@@ -55,7 +59,7 @@ class OrderRepository
             ->leftJoin('roles', 'roles.id', '=', 'model_has_roles.role_id')
             // ->join('towing', 'towing.id', '=', 'orders.towing_id')
             // ->join('users', 'users.id', '=', 'orders.driver_id')
-            ->where('status', 'confirmed')
+            ->where('status', 'ready')
             ->orderBy('orders.created_at', 'desc');
 
         return DataTables::of($data)->toJson();
@@ -82,8 +86,8 @@ class OrderRepository
             'car_name',
             'number_plate',
             'number_body',
-            'car_color',
-            'car_category',
+            'car_colors.name as car_color',
+            'car_categories.name as car_category',
             'memo',
             "status",
             'pic_2',
@@ -94,6 +98,8 @@ class OrderRepository
             'roles.name as user_role',
             DB::raw("DATE_FORMAT(date,'%Y-%m-%d') as date")
         )
+            ->join('car_colors', 'car_colors.id', '=', 'orders.car_color_id')
+            ->join('car_categories', 'car_categories.id', '=', 'orders.car_category_id')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             // ->join('towing', 'towing.id', '=', 'orders.towing_id')
@@ -121,8 +127,8 @@ class OrderRepository
             'car_name',
             'number_plate',
             'number_body',
-            'car_color',
-            'car_category',
+            'car_colors.name as car_color',
+            'car_categories.name as car_category',
             'memo',
             'date',
             'pic_1',
@@ -133,6 +139,8 @@ class OrderRepository
             'status',
             'roles.name as user_role'
         )
+            ->join('car_colors', 'car_colors.id', '=', 'orders.car_color_id')
+            ->join('car_categories', 'car_categories.id', '=', 'orders.car_category_id')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->leftJoin('users', 'users.id', '=', 'orders.user_id')
@@ -173,19 +181,19 @@ class OrderRepository
             'orders.id',
             'car_name',
             'number_plate',
-            'car_color',
-            'car_category',
+            'car_colors.name as car_color',
+            'car_categories.name as car_category',
             'car_condition',
             'memo',
             'date',
-            'time',
-            DB::raw('CONCAT(date, " ", time) as date'),
             'pic_1',
             'pic_2',
             'store_origin.id as store_origin_id',
             'store_origin.name as store_origin',
             'store_destination.name as store_destination',
         )
+            ->join('car_colors', 'car_colors.id', '=', 'orders.car_color_id')
+            ->join('car_categories', 'car_categories.id', '=', 'orders.car_category_id')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->where('store_origin', $request->store_id)
@@ -200,8 +208,8 @@ class OrderRepository
             'car_name',
             'number_plate',
             'number_body',
-            'car_color',
-            'car_category',
+            'car_colors.name as car_color',
+            'car_categories.name as car_category',
             'memo',
             'date',
             'pic_1',
@@ -214,6 +222,8 @@ class OrderRepository
             'status',
             'roles.name as user_role'
         )
+            ->join('car_colors', 'car_colors.id', '=', 'orders.car_color_id')
+            ->join('car_categories', 'car_categories.id', '=', 'orders.car_category_id')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->leftJoin('users', 'users.id', '=', 'orders.user_id')
@@ -238,8 +248,8 @@ class OrderRepository
             'car_name',
             'number_plate',
             'number_body',
-            'car_color',
-            'car_category',
+            'car_colors.name as car_color',
+            'car_categories.name as car_category',
             'memo',
             'date',
             'pic_1',
@@ -252,6 +262,8 @@ class OrderRepository
             'status',
             'roles.name as user_role'
         )
+            ->join('car_colors', 'car_colors.id', '=', 'orders.car_color_id')
+            ->join('car_categories', 'car_categories.id', '=', 'orders.car_category_id')
             ->leftJoin('users', 'users.id', '=', 'orders.user_id')
             ->leftJoin('model_has_roles', function ($join) {
                 $join->on('model_has_roles.model_id', '=', 'users.id')
@@ -269,8 +281,8 @@ class OrderRepository
             'car_name',
             'number_plate',
             'number_body',
-            'car_color',
-            'car_category',
+            'car_colors.name as car_color',
+            'car_categories.name as car_category',
             'memo',
             'date',
             'pic_1',
@@ -281,6 +293,8 @@ class OrderRepository
             'time_confirm',
             'status',
         )
+            ->join('car_colors', 'car_colors.id', '=', 'orders.car_color_id')
+            ->join('car_categories', 'car_categories.id', '=', 'orders.car_category_id')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             // ->join('towing', 'towing.id', '=', 'orders.towing_id')
@@ -301,18 +315,22 @@ class OrderRepository
             'car_name',
             'number_plate',
             'number_body',
-            'car_color',
-            'car_category',
+            'car_colors.name as car_color',
+            'car_categories.name as car_category',
             'memo',
             'date',
             'pic_1',
             'pic_2',
-            'store_origin',
-            'store_destination',
+            'store_origin.name as store_origin',
+            'store_destination.name as store_destination',
             'date_confirm',
             'time_confirm',
             'status',
         )
+            ->join('car_colors', 'car_colors.id', '=', 'orders.car_color_id')
+            ->join('car_categories', 'car_categories.id', '=', 'orders.car_category_id')
+            ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
+            ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             ->where('orders.id', $order_id)
             ->first();
     }
@@ -324,8 +342,8 @@ class OrderRepository
             'car_name',
             'number_plate',
             'number_body',
-            'car_color',
-            'car_category',
+            'car_colors.name as car_color',
+            'car_categories.name as car_category',
             'memo',
             'date',
             'pic_1',
@@ -339,6 +357,8 @@ class OrderRepository
             'roles.name as user_role'
 
         )
+            ->join('car_colors', 'car_colors.id', '=', 'orders.car_color_id')
+            ->join('car_categories', 'car_categories.id', '=', 'orders.car_category_id')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             // ->join('towing', 'towing.id', '=', 'orders.towing_id')
@@ -376,8 +396,8 @@ class OrderRepository
             'car_name',
             'number_plate',
             'number_body',
-            'car_color',
-            'car_category',
+            'car_colors.name as car_color',
+            'car_categories.name as car_category',
             'memo',
             'date',
             'pic_1',
@@ -388,6 +408,8 @@ class OrderRepository
             'time_confirm',
             'status',
         )
+            ->join('car_colors', 'car_colors.id', '=', 'orders.car_color_id')
+            ->join('car_categories', 'car_categories.id', '=', 'orders.car_category_id')
             ->join('stores as store_origin', 'store_origin.id', '=', 'orders.store_origin')
             ->join('stores as store_destination', 'store_destination.id', '=', 'orders.store_destination')
             // ->join('towing', 'towing.id', '=', 'orders.towing_id')
